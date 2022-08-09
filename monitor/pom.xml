@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.microservices</groupId>
+        <artifactId>microservices</artifactId>
+        <version>2022.3</version>
+    </parent>
+    <artifactId>monitor</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- spring-boot-admin-starter-server -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-actuator</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- common-auth -->
+        <dependency>
+            <groupId>org.microservices.common</groupId>
+            <artifactId>common-auth</artifactId>
+        </dependency>
+
+        <!-- common-register -->
+        <dependency>
+            <groupId>org.microservices.common</groupId>
+            <artifactId>common-register</artifactId>
+        </dependency>
+
+        <!-- common-web -->
+        <dependency>
+            <groupId>org.microservices.common</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
+
+        <!-- common-core -->
+        <dependency>
+            <groupId>org.microservices.common</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-logback-spring.xml</id>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/../conf</directory>
+                                </resource>
+                            </resources>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

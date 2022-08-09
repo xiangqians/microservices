@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.microservices.common</groupId>
+        <artifactId>common</artifactId>
+        <version>2022.3</version>
+    </parent>
+    <artifactId>common-doc</artifactId>
+    <packaging>jar</packaging>
+
+    <!--
+     | 文档地址：
+     | http://{host}:{port}/doc.html
+     | http://{host}:{port}/swagger-ui.html
+     |-->
+    <url>
+        http://{host}:{port}/doc.html
+    </url>
+
+    <dependencies>
+
+        <!-- spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <!-- spring-boot-autoconfigure -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!-- springdoc-openapi-ui -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <!-- knife4j-springdoc-ui -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-springdoc-ui</artifactId>
+        </dependency>
+
+        <!-- common-auth -->
+        <dependency>
+            <groupId>org.microservices.common</groupId>
+            <artifactId>common-auth</artifactId>
+        </dependency>
+
+        <!-- common-core -->
+        <dependency>
+            <groupId>org.microservices.common</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

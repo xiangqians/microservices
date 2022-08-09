@@ -1,0 +1,58 @@
+server:
+  port: 9200
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: '@artifactId@'
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${REGISTER_HOST:register}:${REGISTER_PORT:8848}
+        namespace: ${spring.profiles.active}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.profiles.active}
+        file-extension: yml
+    inetutils:
+      ignored-interfaces: [ 'VMware.*' ]
+  profiles:
+    active: '@profiles.active@'
+
+  # boot admin
+  boot:
+    admin:
+      ui:
+        # 设置标题
+        title: Microservice Monitoring Center
+        # 设置导航栏中显示信息
+        brand: '<img src="assets/img/icon-spring-boot-admin.svg"><span>Microservice Monitoring Center</span>'
+        # 用于在ui中构建基本href的基本URL
+        # 如果在反向代理后面运行（使用路径重写），则可用于进行正确的自我引用。如果省略了主机/端口，将从请求中推断出来
+        #public-url: http://localhost:9999/monitor
+
+      # 向client发起请求时不会被转发的headers信息："Cookie", "Set-Cookie", "Authorization"
+      #instance-proxy:
+      #  ignored-headers:
+
+      # 要获取的client的端点信息：
+      # "health", "env", "metrics", "httptrace:trace", "threaddump:dump", "jolokia", "info",
+      # "logfile", "refresh", "flyway", "liquibase", "heapdump", "loggers", "auditevents"
+      probed-endpoints: '*'
+
+      # monitor
+      monitor:
+        # client端状态的生命周期，该生命周期内不会更新client状态，单位是毫秒
+        status-lifetime: 10000
+        # 更新client端状态的时间间隔，单位是毫秒
+        status-interval: 10000
+        # 查询client端状态信息时的连接超时，单位是毫秒
+        default-timeout: 10000
+        # 失败请求的默认重试次数。Modyfing请求（PUT，POST，PATCH，DELETE）将永远不会重试
+        default-retries: 0
+        # 键值对，具有每个endpointId的重试次数。默认为默认重试。Modyfing请求（PUT，POST，PATCH，DELETE）将永远不会重试
+        #retries.*
+
+
+

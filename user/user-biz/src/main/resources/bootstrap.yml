@@ -1,0 +1,10 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /
+
+springdoc:
+  remove-broken-reference-definitions: false
+
+test: '@spring.application.name@'
+

@@ -1,0 +1,10 @@
+microservices:
+  application:
+    version: '@version@'
+  core:
+    # feign
+    feign:
+      base-path: /api/feign/service
+    # monitor
+    monitor:
+      base-path: /api/monitor/service
