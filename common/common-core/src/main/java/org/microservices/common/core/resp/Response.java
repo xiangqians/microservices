@@ -2,9 +2,9 @@ package org.microservices.common.core.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import org.microservices.common.core.util.Optional;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * @author xiangqian
@@ -16,9 +16,6 @@ public class Response<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "版本")
-    private String version;
-
     @Schema(description = "状态码")
     private int statusCode;
 
@@ -28,8 +25,7 @@ public class Response<T> implements Serializable {
     @Schema(description = "报文体")
     private T body;
 
-    private Response(String version, int statusCode, String message, T body) {
-        this.version = version;
+    private Response(int statusCode, String message, T body) {
         this.statusCode = statusCode;
         this.message = message;
         this.body = body;
@@ -41,17 +37,11 @@ public class Response<T> implements Serializable {
 
     public static class Builder<T> {
 
-        private Version version;
         private StatusCode statusCode;
         private String message;
         private T body;
 
         private Builder() {
-        }
-
-        public Builder version(Version version) {
-            this.version = version;
-            return this;
         }
 
         public Builder statusCode(StatusCode statusCode) {
@@ -70,8 +60,7 @@ public class Response<T> implements Serializable {
         }
 
         public Response build() {
-            return new Response(Optional.ofNullable(version).map(Version::getValue).orElse(null),
-                    Optional.ofNullable(statusCode).map(StatusCode::getValue).orElse(-1),
+            return new Response(Optional.ofNullable(statusCode).map(StatusCode::getValue).orElse(-1),
                     Optional.ofNullable(message).orElse(Optional.ofNullable(statusCode).map(StatusCode::getReasonPhrase).orElse(null)),
                     body);
         }

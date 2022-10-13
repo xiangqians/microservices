@@ -2,10 +2,10 @@ package org.microservices.common.core.pagination;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.microservices.common.core.util.Optional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 

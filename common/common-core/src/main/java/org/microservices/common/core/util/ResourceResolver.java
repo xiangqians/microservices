@@ -27,7 +27,7 @@ import java.util.function.Function;
  * @author xiangqian
  * @date 08:19 2020/06/10
  */
-public class ResourcePatternResolver {
+public class ResourceResolver {
 
     private static final org.springframework.core.io.support.ResourcePatternResolver RESOURCE_PATTERN_RESOLVER;
     private static final MetadataReaderFactory METADATA_READER_FACTORY;
@@ -123,10 +123,10 @@ public class ResourcePatternResolver {
      * get resources
      *
      * @param resourcePattern   see:
-     *                          {@link ResourcePatternResolver#CLASS_RESOURCE_PATTERN}
-     *                          {@link ResourcePatternResolver#YML_RESOURCE_PATTERN}
-     *                          {@link ResourcePatternResolver#YAML_RESOURCE_PATTERN}
-     *                          {@link ResourcePatternResolver#PROPERTIES_RESOURCE_PATTERN}
+     *                          {@link ResourceResolver#CLASS_RESOURCE_PATTERN}
+     *                          {@link ResourceResolver#YML_RESOURCE_PATTERN}
+     *                          {@link ResourceResolver#YAML_RESOURCE_PATTERN}
+     *                          {@link ResourceResolver#PROPERTIES_RESOURCE_PATTERN}
      *                          other
      * @param candidateFunction 候选器
      * @return

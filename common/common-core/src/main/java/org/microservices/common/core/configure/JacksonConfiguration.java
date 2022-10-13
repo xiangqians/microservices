@@ -1,21 +1,12 @@
 package org.microservices.common.core.configure;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import org.microservices.common.core.enumeration.Enum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -50,28 +41,6 @@ public class JacksonConfiguration implements Jackson2ObjectMapperBuilderCustomiz
     @Override
     public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
         customizeDate(jacksonObjectMapperBuilder);
-        customizeEnum(jacksonObjectMapperBuilder);
-    }
-
-    private void customizeEnum(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
-        // 反序列化
-        jacksonObjectMapperBuilder.deserializerByType(Enum.class, new JsonDeserializer<Enum>() {
-            @Override
-            public Enum deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-                return null;
-            }
-        });
-
-        // 序列化
-        jacksonObjectMapperBuilder.serializerByType(java.lang.Enum.class, new JsonSerializer<Enum>() {
-            @Override
-            public void serialize(Enum iEnum, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-                jsonGenerator.writeStartObject();
-                jsonGenerator.writeStringField("value1", String.valueOf(iEnum.getValue()));
-                jsonGenerator.writeStringField("description", iEnum.getDescription());
-                jsonGenerator.writeEndObject();
-            }
-        });
     }
 
     private void customizeDate(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {

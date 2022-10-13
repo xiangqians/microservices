@@ -11,17 +11,13 @@
 
     <modules>
         <module>common</module>
-        <module>monitor</module>
-        <module>register</module>
-        <module>gateway</module>
-        <module>auth</module>
+<!--        <module>gateway</module>-->
+<!--        <module>auth</module>-->
         <module>user</module>
-        <!--        <module>order</module>-->
     </modules>
 
     <name>${project.artifactId}</name>
-    <!-- FIXME change it to the project's website -->
-    <url>https://github.com/xiangqians</url>
+    <url>https://github.com/xiangqians/microservices</url>
     <description>microservices</description>
 
     <properties>
@@ -34,9 +30,6 @@
 
         <!-- 日志文件夹 -->
         <microservices.log-folder>logs</microservices.log-folder>
-
-        <!-- timestamp -->
-        <microservices.timestamp>${maven.build.timestamp}</microservices.timestamp>
 
         <!-- conf dir -->
         <microservices-conf.dir>./conf</microservices-conf.dir>
@@ -90,25 +83,10 @@
         <!-- knife4j-springdoc-ui -->
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
 
-        <!-- spring-boot-admin-starter-server -->
-        <spring-boot-admin-starter-server.version>2.6.6</spring-boot-admin-starter-server.version>
-
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <!-- order -->
-            <dependency>
-                <groupId>org.microservices.order</groupId>
-                <artifactId>order-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.order</groupId>
-                <artifactId>order-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <!-- user -->
             <dependency>
@@ -150,11 +128,6 @@
             </dependency>
             <dependency>
                 <groupId>org.microservices.common</groupId>
-                <artifactId>common-resilience4j</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
                 <artifactId>common-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -170,22 +143,9 @@
             </dependency>
             <dependency>
                 <groupId>org.microservices.common</groupId>
-                <artifactId>common-monitor</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
                 <artifactId>common-test</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
-            </dependency>
-
-            <!-- spring-boot-admin-starter-server -->
-            <!-- https://github.com/codecentric/spring-boot-admin -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot-admin-starter-server.version}</version>
             </dependency>
 
             <!-- spring-boot-dependencies -->
@@ -320,30 +280,6 @@
 
         <pluginManagement>
             <plugins>
-                <!-- https://github.com/xiangqians/defoliation-maven-plugin -->
-                <plugin>
-                    <groupId>org.xiangqian</groupId>
-                    <artifactId>defoliation-maven-plugin</artifactId>
-                    <version>2022.4</version>
-                    <executions>
-                        <execution>
-                            <id>properties</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>properties</goal>
-                            </goals>
-                            <configuration>
-                                <includes>
-                                    <include>${project.basedir}/src/main/resources/bootstrap.yml</include>
-                                </includes>
-                                <properties>
-                                    <server.port>server.port</server.port>
-                                </properties>
-                                <skip>true</skip>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
 
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -424,28 +360,6 @@
                             </configuration>
                         </execution>
 
-                        <!-- copy package bin -->
-                        <execution>
-                            <id>copy-package-bin</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.basedir}/target/classes</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>${microservices-conf.dir}/package/bin</directory>
-                                        <filtering>true</filtering>
-                                        <includes>
-                                            <include>*.cmd</include>
-                                            <include>*.sh</include>
-                                        </includes>
-                                    </resource>
-                                </resources>
-                                <skip>true</skip>
-                            </configuration>
-                        </execution>
                     </executions>
                 </plugin>
 
@@ -454,29 +368,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
-                </plugin>
-
-                <!-- maven-assembly-plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <configuration>
-                        <!-- 指定最终生成的文件名为：项目构建后最终文件名 -->
-                        <finalName>${project.build.finalName}</finalName>
-                        <descriptors>
-                            <descriptor>${microservices-conf.dir}/package/assembly.xml</descriptor>
-                        </descriptors>
-                        <skipAssembly>true</skipAssembly>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>assembly</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
 
             </plugins>
@@ -523,7 +414,6 @@
         </profile>
     </profiles>
 
-
     <repositories>
 
         <!--
@@ -560,13 +450,5 @@
         -->
 
     </repositories>
-
-    <pluginRepositories>
-        <!-- github -->
-        <pluginRepository>
-            <id>github</id>
-            <url>https://raw.githubusercontent.com/xiangqians/repository/master/maven</url>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>

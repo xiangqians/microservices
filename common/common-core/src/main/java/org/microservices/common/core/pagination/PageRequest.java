@@ -33,7 +33,7 @@ public class PageRequest {
     @Schema(description = "排序属性")
     private List<String> sortProperty;
 
-    @Schema(description = "排序命令")
+    @Schema
     private SortOrder sortOrder;
 
     public PageRequest() {

@@ -1,5 +1,6 @@
 package org.microservices.common.core.pagination;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import org.microservices.common.core.enumeration.Enum;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @date 23:15 2022/06/14
  */
 @Getter
+@Schema(description = "排序命令")
 public enum SortOrder implements Enum<Integer> {
     UNSORTED(0, "未分类"),
     ASCENDING(1, "升序"),
@@ -31,8 +33,9 @@ public enum SortOrder implements Enum<Integer> {
         if (Objects.isNull(value)) {
             return null;
         }
+
         return Arrays.stream(SortOrder.values())
-                .filter(sortOrder -> sortOrder.value == value)
+                .filter(sortOrder -> sortOrder.value.equals(value))
                 .findFirst()
                 .orElse(null);
     }

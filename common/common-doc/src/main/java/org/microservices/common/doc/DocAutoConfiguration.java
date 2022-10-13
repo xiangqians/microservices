@@ -9,10 +9,9 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
-import org.microservices.common.auth.support.AuthorizationRequest;
 import org.microservices.common.auth.support.PermitAuthorizationRequest;
 import org.microservices.common.auth.support.ResourceMatchPattern;
-import org.microservices.common.core.util.ResourcePatternResolver;
+import org.microservices.common.core.util.ResourceResolver;
 import org.microservices.common.core.web.ResourceHandlerRegistrar;
 import org.microservices.common.doc.support.*;
 import org.springdoc.core.GroupedOpenApi;
@@ -54,7 +53,7 @@ public class DocAutoConfiguration {
 
     @Bean
     public GroupedOpenApi defaultGroupedOpenApi(DocProperties docProperties) throws IOException {
-        Set<String> set = ResourcePatternResolver.getPackageSet(docProperties.basePackages());
+        Set<String> set = ResourceResolver.getPackageSet(docProperties.basePackages());
         return GroupedOpenApi.builder()
                 // 组名称
                 .group("default")

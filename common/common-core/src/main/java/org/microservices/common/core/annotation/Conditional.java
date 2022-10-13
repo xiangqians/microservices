@@ -2,7 +2,7 @@ package org.microservices.common.core.annotation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.microservices.common.core.support.ConditionProcessor;
-import org.microservices.common.core.util.ResourcePatternResolver;
+import org.microservices.common.core.util.ResourceResolver;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -51,7 +51,7 @@ public @interface Conditional {
             Class<ConditionProcessor> conditionProcessorClass = (Class<ConditionProcessor>) attributes.get("processor");
             Set<Class<ConditionProcessor>> candidateClassSet = null;
             try {
-                candidateClassSet = ResourcePatternResolver.getClassSet(candidateClass -> typeof(conditionProcessorClass, candidateClass), "org.microservices");
+                candidateClassSet = ResourceResolver.getClassSet(candidateClass -> typeof(conditionProcessorClass, candidateClass), "org.microservices");
             } catch (IOException e) {
                 log.error("", e);
                 return false;

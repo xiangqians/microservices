@@ -4,7 +4,7 @@ import net.sf.ehcache.CacheException;
 import net.sf.ehcache.config.ConfigurationFactory;
 import net.sf.ehcache.config.ConfigurationHelper;
 import org.apache.commons.lang3.ArrayUtils;
-import org.microservices.common.core.util.ResourcePatternResolver;
+import org.microservices.common.core.util.ResourceResolver;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -155,7 +155,7 @@ public class EhcacheSupport {
 
             // 获取dao层所有class中定义的cache name
             Set<String> prepareCacheNameSet = new HashSet<>();
-            ResourcePatternResolver.getClassSet(candidateClass -> {
+            ResourceResolver.getClassSet(candidateClass -> {
                 Method[] methods = candidateClass.getMethods();
                 for (Method method : methods) {
                     String[] cacheNames = null;

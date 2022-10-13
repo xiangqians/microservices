@@ -15,16 +15,13 @@
 
     <modules>
         <module>common-core</module>
-        <module>common-register</module>
-        <module>common-feign</module>
-        <module>common-auth</module>
+<!--        <module>common-register</module>-->
+<!--        <module>common-feign</module>-->
+<!--        <module>common-auth</module>-->
         <module>common-db</module>
         <module>common-web</module>
-        <module>common-cache</module>
+<!--        <module>common-cache</module>-->
         <module>common-doc</module>
-        <module>common-monitor</module>
-        <module>common-resilience4j</module>
-        <module>common-lock</module>
         <module>common-test</module>
     </modules>
 
