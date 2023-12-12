@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.microservices.user</groupId>
+        <groupId>org.xiangqian.microservices</groupId>
         <artifactId>user</artifactId>
-        <version>2022.3</version>
+        <version>2022.03</version>
     </parent>
     <artifactId>user-api</artifactId>
-    <packaging>jar</packaging>
+    <name>${artifactId}</name>
+    <description>用户API模块</description>
 
     <dependencies>
-
-        <!-- common-feign -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-feign</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>user-model</artifactId>
         </dependency>
-
-        <!-- user-common -->
-        <dependency>
-            <groupId>org.microservices.user</groupId>
-            <artifactId>user-common</artifactId>
-        </dependency>
-
     </dependencies>
-
 
 </project>

@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    nacos:
+      # 服务注册与发现
+      # com.alibaba.cloud.nacos.NacosDiscoveryProperties
+      discovery:
+        # nacos服务地址
+        server-addr: ${REGISTER_HOST:register}:${REGISTER_PORT:8848}
+
+      # 配置中心
+      # com.alibaba.cloud.nacos.NacosConfigProperties
+      config:
+        # nacos服务地址
+        server-addr: ${REGISTER_HOST:register}:${REGISTER_PORT:8848}
+        # 前缀
+        prefix: ${spring.application.name}
+        # 文件扩展名
+        file-extension: yaml
+        # dataId的规则: ${prefix}-${spring.profiles.active}.${file-extension}

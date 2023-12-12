@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.microservices</groupId>
+        <groupId>org.xiangqian.microservices</groupId>
         <artifactId>microservices</artifactId>
-        <version>2022.3</version>
+        <version>2022.03</version>
     </parent>
-
-    <groupId>org.microservices.common</groupId>
-    <artifactId>common</artifactId>
     <packaging>pom</packaging>
+    <artifactId>common</artifactId>
+    <name>${artifactId}</name>
+    <description>公共模块</description>
 
     <modules>
-        <module>common-core</module>
-<!--        <module>common-register</module>-->
-<!--        <module>common-feign</module>-->
-<!--        <module>common-auth</module>-->
+        <module>common-auth</module>
+        <module>common-cache</module>
+        <module>common-codegen</module>
         <module>common-db</module>
-        <module>common-web</module>
-<!--        <module>common-cache</module>-->
         <module>common-doc</module>
-        <module>common-test</module>
+        <module>common-doc-webflux</module>
+        <module>common-doc-webmvc</module>
+        <module>common-model</module>
+        <module>common-register-factory</module>
+        <module>common-register</module>
+        <module>common-register-consul</module>
+        <module>common-register-nacos</module>
+        <module>common-rpc</module>
+        <module>common-thread-pool</module>
+        <module>common-util</module>
+        <module>common-web</module>
+        <module>common-webflux</module>
+        <module>common-webmvc</module>
     </modules>
 
 </project>

@@ -1,102 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.microservices.order</groupId>
+        <groupId>org.xiangqian.microservices</groupId>
         <artifactId>order</artifactId>
-        <version>2022.3</version>
+        <version>2022.03</version>
     </parent>
     <artifactId>order-biz</artifactId>
-    <packaging>jar</packaging>
+    <name>${artifactId}</name>
+    <description>订单业务模块</description>
+
+    <properties>
+        <conf-dir>${project.basedir}/../../conf</conf-dir>
+    </properties>
 
     <dependencies>
-
-        <!-- user-api -->
         <dependency>
-            <groupId>org.microservices.user</groupId>
+            <groupId>org.xiangqian.microservices</groupId>
             <artifactId>user-api</artifactId>
         </dependency>
-
-        <!-- order-api -->
         <dependency>
-            <groupId>org.microservices.order</groupId>
-            <artifactId>order-api</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-rpc</artifactId>
         </dependency>
-
-        <!-- common-hystrix -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-circuit-breaker</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-webmvc</artifactId>
         </dependency>
-
-        <!-- common-monitor -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-monitor</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-db</artifactId>
         </dependency>
-
-        <!-- common-doc -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-doc</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-register-factory</artifactId>
         </dependency>
-
-        <!-- common-auth -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-auth</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>order-model</artifactId>
         </dependency>
-
-        <!-- common-register -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-register</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-codegen</artifactId>
+            <scope>test</scope>
         </dependency>
-
-        <!-- common-web -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-web</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
-
-        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>
-
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-logback-spring.xml</id>
+                        <id>copy-conf</id>
                         <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/../../conf</directory>
-                                </resource>
-                            </resources>
                             <skip>false</skip>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
 

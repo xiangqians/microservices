@@ -1,62 +1,52 @@
 # 简介
 
+微服务架构
+
+- JDK17
+- Maven v3.6.0
+- Spring Boot
+- Spring Authorization Server
+- Cache
+- ...
+
 # 项目目录结构
 
-```
+```text
 ├ microservices
 ├ 
-├── common              （公共模块）
-├    ├── common-core    （公共核心模块）
-├    ├── common-auth    （公共权限模块）
-├    ├── common-cache   （公共缓存模块）
-├    ├── common-db      （公共db模块）
-├    ├── common-doc     （公共文档模块，springdoc + knife4j）
-├    ├── common-feign   （声明式REST客户端模块，需要使用@EnableFeign注解开启）
-├    ├── common-test    （测试模块）
-├    ├── common-register（公共服务注册与配置模块）
-├    └── common-web     （公共web模块）
-├── register            （服务注册与配置中心， consul [8500]）
-├── auth                （授权服务 [3000]）
-├── user                （用户中心 [9000]）
-├    ├── user-common    （用户公共模块）
-├    ├── user-api       （用户API服务）
-├    ├── user-biz       （用户业务服务）
-└── gateway             （网关服务 [9999]）
+├── common                      （公共模块）
+├    ├── common-auth            （授权资源模块）
+├    ├── common-cache           （缓存模块）
+├    ├── common-codegen         （代码生成模块）
+├    ├── common-db              （db模块）
+├    ├── common-model           （模型模块）
+├    ├── common-register-factory（注册中心工厂模块，支持consul和nacos）
+├    ├── common-rpc             （远程过程调用协议模块）
+├    ├── common-thread-pool     （线程池模块）
+├    ├── common-util            （工具模块）
+├    ├── common-webflux         （webflux模块）
+├    └── common-webmvc          （webmvc模块）
+├── user                        （用户模块）
+├    ├── user-model             （用户模型模块）
+├    ├── user-api               （用户API模块）
+├    └── user-biz               （用户业务服务模块）
+├── order                       （订单模块）
+├    ├── order-model            （订单模型模块）
+├    ├── order-api              （订单API模块）
+├    └── order-biz              （订单业务服务模块）
+├── auth                        （授权认证模块）
+└── gateway                     （网关服务模块）
 ```
 
-## register（服务注册与配置中心）
+任务调度中心？
 
-```java
-/**
- * 获取kv
- * {@link KeyValueConsulClient#getKVValues(java.lang.String, java.lang.String, com.ecwid.consul.v1.QueryParams)}
- * {@link ConsulPropertySources#createPropertySource(java.lang.String, com.ecwid.consul.v1.ConsulClient,
-        java.util.function.BiConsumer)}
- * <p>
- * $ mkdir -p ./data/consul.d
- * $ mkdir ./log
- * $ ./consul agent -server -ui -node=consul-server -client=0.0.0.0 -bind=192.168.194.132 -bootstrap-expect=1
- -data-dir=./data/consul.d -log-file=./log/consul.log
- *
- * @author xiangqian
- * @date 14:28 2022/04/30
- */
-public class RegisterApplication {
-}
-```
+# API文档
 
-## auth（授权服务）
+[Swagger](http://localhost:8000/swagger-ui.html)
 
-## gateway （网关服务）
+[Knife4j](http://localhost:8000/doc.html)
 
-[test](conf/gateway.json)
+# 微服务间通信
 
-## Doc
-
-http://localhost:9001/swagger-ui.html
-
-http://localhost:9001/doc.html
-
-
-
-
+- 同步通信：RPC
+- 异步通信：MQ

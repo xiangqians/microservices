@@ -1,0 +1,69 @@
+spring:
+  cloud:
+    # org.springframework.cloud.consul.ConsulProperties
+    consul:
+      # 配置consul地址
+      host: ${REGISTER_HOST:register}
+      # 配置consul端口
+      port: ${REGISTER_PORT:8500}
+
+      # 服务注册与发现
+      # org.springframework.cloud.consul.discovery.ConsulDiscoveryProperties
+      discovery:
+        # 开启服务注册与发现
+        enabled: true
+        # 服务注册标识
+        #instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        # 注册服务名称
+        service-name: ${spring.application.name}
+        # 开启心跳机制
+        heartbeat:
+          enabled: true
+        # 表示注册时使用IP而不是hostname
+        #prefer-ip-address: true
+        # 服务停止时取消注册
+        #deregister: true
+        # 启用服务注册
+        #register: true
+        # 健康检查失败多长时间后，取消注册
+        #health-check-critical-timeout: 30s
+        # 健康检查路径
+        #health-check-path: /actuator/info
+        # 健康检查频率
+        #health-check-interval: 30s
+
+      # 配置中心
+      # org.springframework.cloud.consul.config.ConsulConfigProperties
+      config:
+        # No spring.config.import property has been defined
+        # Action:
+        # Add a spring.config.import=consul: property to your configuration.
+        #	If configuration is not required add spring.config.import=optional:consul: instead.
+        #	To disable this check, set spring.cloud.consul.config.enabled=false or
+        #	spring.cloud.consul.config.import-check.enabled=false.
+        import: 'consul:'
+        # 开启配置中心
+        enabled: true
+
+        # 文件前缀，默认值 config
+        prefix: config
+        # 设置应用的文件夹名称，默认值 application
+        default-context: application
+        # 配置环境分隔符，默认值：,
+        profile-separator: ','
+        # 配置数据key值，默认为data
+        data-key: data.yml
+        # 文件的格式：KEY_VALUE, PROPERTIES, YAML, FILES
+        format: YAML
+        # 在运行时会加载以下资源:
+        # GET /v1/kv/${prefix}/${spring.application.name},${spring.profiles.active}/${data-key}
+        # GET /v1/kv/${prefix}/${spring.application.name}/${data-key}
+        # GET /v1/kv/${prefix}/${default-context},${spring.profiles.active}/${data-key}
+        # GET /v1/kv/${prefix}/${default-context}/${data-key}
+
+        # 配置文件变更监视
+        watch:
+          # 是否开启自动刷新，默认值 true 开启
+          enabled: true
+          # 刷新频率，默认值：1000，单位：ms
+          delay: 1000

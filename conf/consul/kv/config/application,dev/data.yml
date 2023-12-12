@@ -1,0 +1,11 @@
+# application,dev/data.yml
+
+# openapi文档配置
+springdoc:
+  api-docs:
+    # 开启文档
+    enabled: true
+
+  swagger-ui:
+    # 定义文档访问路径
+    path: /swagger-ui.html

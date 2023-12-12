@@ -1,163 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.microservices</groupId>
+    <groupId>org.xiangqian.microservices</groupId>
     <artifactId>microservices</artifactId>
-    <version>2022.3</version>
+    <version>2022.03</version>
     <packaging>pom</packaging>
+    <name>${artifactId}</name>
+    <url>https://github.com/xiangqians/microservices</url>
+    <description>微服务应用</description>
 
     <modules>
+        <module>auth</module>
         <module>common</module>
-<!--        <module>gateway</module>-->
-<!--        <module>auth</module>-->
+        <module>gateway</module>
+        <module>order</module>
         <module>user</module>
     </modules>
 
-    <name>${project.artifactId}</name>
-    <url>https://github.com/xiangqians/microservices</url>
-    <description>microservices</description>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>12</maven.compiler.source>
-        <maven.compiler.target>12</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
-        <!-- https://maven.apache.org/surefire/maven-surefire-plugin/examples/skipping-tests.html -->
+        <!-- 配置文件目录 -->
+        <conf-dir>./conf</conf-dir>
+
+        <!-- 跳过单元测试 -->
         <skipTests>true</skipTests>
 
-        <!-- 日志文件夹 -->
-        <microservices.log-folder>logs</microservices.log-folder>
+        <!-- maven-compiler-plugin -->
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 
-        <!-- conf dir -->
-        <microservices-conf.dir>./conf</microservices-conf.dir>
+        <!-- maven-resources-plugin -->
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
 
         <!-- spring-boot-dependencies -->
         <!-- https://spring.io/projects/spring-boot#learn -->
-        <spring-boot-dependencies.version>2.6.7</spring-boot-dependencies.version>
+        <!-- 3.1.1 GA -->
+        <spring-boot-dependencies.version>3.1.1</spring-boot-dependencies.version>
 
         <!-- spring-cloud-dependencies -->
         <!--
             https://spring.io/projects/spring-cloud#learn
-            Release Train Version: 2021.0.2
-            Supported Boot Version: 2.6.7
+            Release Train Version: 2022.0.4
+            Supported Boot Version: 3.0.9
         -->
-        <spring-cloud-dependencies.version>2021.0.2</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
 
-        <!--
-        https://stackoverflow.com/questions/70178343/springfox-3-0-0-is-not-working-with-spring-boot-2-6-0
-        Up to now, Springfox 3.0.0 only works with Spring 2.6.0-M2 but not with versions above.
-        See the open Springfox issue https://github.com/springfox/springfox/issues/3462.
-        There you will also find some workarounds you may use until the issue is fixed.
-        -->
+        <!-- nacos -->
+        <nacos.version>2022.0.0.0</nacos.version>
 
-        <!-- spring-security-oauth2 -->
-        <spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
-        <!-- spring-security-oauth2-authorization-server -->
-        <spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
+        <!-- apache-commons -->
+        <apache-commons-io.version>2.11.0</apache-commons-io.version>
+        <apache-commons-collections.version>4.4</apache-commons-collections.version>
 
-        <!-- spring-security-jwt -->
-        <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+        <guava.version>32.1.3-jre</guava.version>
 
-        <!-- mybatis -->
-        <mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
-        <velocity-engine-core.version>2.3</velocity-engine-core.version>
-
-        <!-- asm -->
-        <asm.version>9.3</asm.version>
-
-        <!-- redisson -->
-        <redisson.version>3.17.1</redisson.version>
-
-        <!-- google guava -->
-        <guava.version>31.1-jre</guava.version>
-
-        <!-- springdoc-openapi-ui -->
+        <!-- springdoc -->
         <!-- https://github.com/springdoc/springdoc-openapi -->
         <!-- https://springdoc.org/index.html#migrating-from-springfox -->
-        <springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
-        <swagger-api.version>2.2.0</swagger-api.version>
+        <springdoc.version>2.0.4</springdoc.version>
 
-        <!-- knife4j-springdoc-ui -->
-        <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
+        <!-- swagger core v3 -->
+        <swagger-core.version>2.2.8</swagger-core.version>
 
+        <!-- knife4j -->
+        <knife4j.version>4.1.0</knife4j.version>
+
+        <!-- mysql-connector -->
+        <mysql-connector.version>8.0.30</mysql-connector.version>
+
+        <!-- mybatis-plus -->
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+
+        <!-- apache-velocity-engine -->
+        <apache-velocity-engine.version>2.3</apache-velocity-engine.version>
+
+        <!-- dynamic-datasource -->
+        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
+
+        <!-- bootstrap -->
+        <bootstrap.version>5.3.0</bootstrap.version>
+
+        <!-- nimbus-jose-jwt -->
+        <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
-            <!-- user -->
+            <!-- nimbus-jose-jwt
+             | 版本出自：
+             | <dependency>
+             |      <groupId>org.springframework.boot</groupId>
+             |      <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+             | </dependency>
+             |-->
             <dependency>
-                <groupId>org.microservices.user</groupId>
-                <artifactId>user-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.user</groupId>
-                <artifactId>user-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- common -->
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-cache</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-register</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-feign</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-auth</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-db</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-doc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.microservices.common</groupId>
-                <artifactId>common-test</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
             </dependency>
 
-            <!-- spring-boot-dependencies -->
+            <!-- 静态资源 -->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
             </dependency>
 
-            <!-- spring-cloud-dependencies -->
+            <!--
+             | 源自：
+             | <dependency>
+             |      <groupId>org.springframework.boot</groupId>
+             |      <artifactId>spring-boot-starter-validation</artifactId>
+             | </dependency>
+             |-->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>8.0.0.Final</version>
+            </dependency>
+
+            <!-- @mybatis::begin -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>3.5.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>3.5.3.1</version>
+            </dependency>
+
+            <!-- dynamic-datasource-spring-boot-starter -->
+            <!--
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+            -->
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- velocity模板引擎 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${apache-velocity-engine.version}</version>
+            </dependency>
+
+            <!-- @mybatis::end -->
+
+            <!-- mysql连接器 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+
+            <!-- @springdoc::begin
+             | https://springdoc.org/index.html#getting-started
+             |-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-common</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-core-jakarta</artifactId>
+                <version>${swagger-core.version}</version>
+            </dependency>
+            <!-- @springdoc::end -->
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- @apache-commons::begin -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${apache-commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${apache-commons-collections.version}</version>
+            </dependency>
+            <!-- @apache-commons::end -->
+
+            <!-- spring-cloud依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -166,121 +230,209 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- spring-security-oauth2-authorization-server -->
+            <!-- spring-boot依赖 -->
             <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>${spring-security-oauth2.version}</version>
-            </dependency>
-            <!-- spring-security-oauth2-authorization-server -->
-            <!--
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-oauth2-authorization-server</artifactId>
-                <version>${spring-security-oauth2-authorization-server.version}</version>
-            </dependency>
-            -->
-
-            <!-- spring-security-jwt -->
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-jwt</artifactId>
-                <version>${spring-security-jwt.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
-            <!-- asm -->
+            <!-- nacos依赖 -->
+            <!-- @nacos::begin -->
+            <!-- 服务注册与发现 -->
             <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm</artifactId>
-                <version>${asm.version}</version>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <!-- 配置中心 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <!-- @nacos::end -->
+
+            <!-- @microservices-module::begin -->
+            <!-- order -->
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>order-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>order-api</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- redisson -->
+            <!-- user -->
             <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson</artifactId>
-                <version>${redisson.version}</version>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>user-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>user-api</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- ............................mybatis[begin]............................ -->
-            <!-- mybatis-plus-boot-starter -->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-model</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- mybatis-plus-generator -->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- velocity模板引擎 -->
-            <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity-engine-core</artifactId>
-                <version>${velocity-engine-core.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- ............................mybatis[end]............................ -->
-
-            <!-- springdoc-openapi-ui -->
-            <!-- https://springdoc.org/ -->
-            <!-- https://springdoc.org/index.html#migrating-from-springfox -->
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc-openapi-ui.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-api.version}</version>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-rpc</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- knife4j-springdoc-ui -->
+            <!-- register -->
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-springdoc-ui</artifactId>
-                <version>${knife4j-springdoc-ui.version}</version>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register-factory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
-            <!-- google guava -->
+            <!-- doc -->
             <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-doc-webflux</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-doc-webmvc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-doc</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
+            <!-- web -->
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-webflux</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-webmvc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-codegen</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- @microservices-module::end -->
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <finalName>${project.name}-${profiles.active}-${project.version}</finalName>
-
-        <!-- 默认 -->
-        <!--
-        <outputDirectory>${project.basedir}/target</outputDirectory>
-        -->
-
-        <resources>
-            <resource>
-                <!-- 默认 -->
-                <!--
-                <directory>${project.basedir}/src/main/resources</directory>
-                -->
-
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-
+        <finalName>${name}-${profiles.active}-${project.version}</finalName>
         <pluginManagement>
             <plugins>
+                <!-- 资源插件 -->
+                <!-- https://maven.apache.org/plugins/maven-resources-plugin/ -->
+                <!-- https://maven.apache.org/plugins/maven-resources-plugin/examples/ -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                    <executions>
+                        <!-- 拷贝logback-spring.xml -->
+                        <execution>
+                            <id>copy-conf</id>
 
+                            <!-- 在validate阶段执行 -->
+                            <phase>validate</phase>
+
+                            <!--
+                             | 最经常使用的两个goal:
+                             | 1、resources：这是process-resources阶段的默认goal，在不配置任何参数的状况下，将默认使用 build.resources 中的目录做为源路径，将 build.outputDirectory 做为目标路径
+                             | 2、copy-resources：须要明确的指定源路径和目标路径
+                             |-->
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+
+                            <configuration>
+                                <!-- 输出到指定路径 -->
+                                <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>${conf-dir}</directory>
+                                        <!-- 开启资源文件插值操作 -->
+                                        <filtering>true</filtering>
+                                        <includes>
+                                            <include>config/bootstrap.yml</include>
+                                            <include>bootstrap.yml</include>
+                                            <include>logback-spring.xml</include>
+                                        </includes>
+                                    </resource>
+                                </resources>
+                                <!-- 覆盖已存在文件 -->
+                                <overwrite>true</overwrite>
+                                <!-- 若是配置为true，则跳过执行 -->
+                                <skip>true</skip>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- 编译插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <target>${maven.compiler.target}</target>
+                        <source>${maven.compiler.source}</source>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+
+                <!-- spring-boot打包插件 -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -293,119 +445,39 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <!-- https://maven.apache.org/plugins/maven-resources-plugin/ -->
-                <!-- https://maven.apache.org/plugins/maven-resources-plugin/examples/ -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
-                    <executions>
-                        <!-- copy logback-spring.xml -->
-                        <execution>
-                            <id>copy-logback-spring.xml</id>
-
-                            <!-- 在validate阶段执行 -->
-                            <phase>validate</phase>
-
-                            <!--
-                            最经常使用的两个goal:
-                            1、resources：这是process-resources阶段的默认goal, 在不配置任何参数的状况下，将默认使用build.resources中的目录做为源路径，将build.outputDirectory做为目标路径（其实是这目录下的classes）
-                            2、copy-resources：须要明确的指定源路径和目标路径.
-                            -->
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-
-                            <configuration>
-                                <!-- 输出到指定路径 -->
-                                <outputDirectory>${project.basedir}/target/classes</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <!-- 子模块依赖需要修改路径 -->
-                                        <directory>${microservices-conf.dir}</directory>
-
-                                        <!-- 开启资源文件插值操做 -->
-                                        <filtering>true</filtering>
-
-                                        <includes>
-                                            <include>logback-spring.xml</include>
-                                        </includes>
-                                    </resource>
-                                </resources>
-                                <!-- 若是配置为true,则本操做不被执行 -->
-                                <skip>true</skip>
-                            </configuration>
-                        </execution>
-
-                        <!-- copy bootstrap.yml -->
-                        <execution>
-                            <id>copy-bootstrap.yml</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.basedir}/target/classes/config</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>${microservices-conf.dir}</directory>
-                                        <filtering>true</filtering>
-                                        <includes>
-                                            <include>bootstrap.yml</include>
-                                        </includes>
-                                    </resource>
-                                </resources>
-                                <skip>true</skip>
-                            </configuration>
-                        </execution>
-
-                    </executions>
-                </plugin>
-
-                <!-- maven-compiler-plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
-                </plugin>
-
             </plugins>
         </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <target>${maven.compiler.target}</target>
-                    <source>${maven.compiler.source}</source>
-                    <encoding>UTF-8</encoding>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
-
     </build>
 
-    <!-- profiles，环境标识 -->
+    <!-- 环境标识 -->
     <profiles>
+        <!-- 开发环境 -->
         <profile>
             <id>dev</id>
             <properties>
                 <profiles.active>dev</profiles.active>
             </properties>
             <activation>
-                <!-- 设置默认环境 -->
+                <!-- 默认环境 -->
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+
+        <!-- 测试环境 -->
         <profile>
             <id>test</id>
             <properties>
                 <profiles.active>test</profiles.active>
             </properties>
         </profile>
+
+        <!-- 正式环境 -->
         <profile>
             <id>prod</id>
             <properties>
@@ -413,42 +485,5 @@
             </properties>
         </profile>
     </profiles>
-
-    <repositories>
-
-        <!--
-         | 阿里云仓库
-         | https://developer.aliyun.com/mvn/guide
-         |-->
-        <repository>
-            <id>aliyun-public</id>
-            <name>central仓和jcenter仓的聚合仓</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-
-        <!--
-         | mavenCentral
-         | 官网地址：http://mvnrepository.com
-         | url:
-         | https://repo1.maven.org/maven2
-         | http://central.maven.org/maven2/
-        -->
-        <!--
-        <repository>
-            <id>mavenCentral</id>
-            <url>https://repo1.maven.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        -->
-
-    </repositories>
 
 </project>

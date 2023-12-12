@@ -1,156 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.microservices</groupId>
+        <groupId>org.xiangqian.microservices</groupId>
         <artifactId>microservices</artifactId>
-        <version>2022.3</version>
+        <version>2022.03</version>
     </parent>
     <artifactId>auth</artifactId>
-    <packaging>jar</packaging>
+    <name>${artifactId}</name>
+    <description>授权认证模块</description>
 
     <properties>
-        <microservices-conf.dir>${project.basedir}/../conf</microservices-conf.dir>
+        <conf-dir>${project.basedir}/../conf</conf-dir>
     </properties>
 
     <dependencies>
-
-        <!-- user-api -->
+        <!-- 静态资源 -->
         <dependency>
-            <groupId>org.microservices.user</groupId>
-            <artifactId>user-api</artifactId>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
         </dependency>
 
-        <!-- common-monitor -->
+        <!-- thymeleaf模板引擎 -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-monitor</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!-- common-feign -->
+        <!-- spring-security-oauth2-authorization-server
+         | https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix#frequently-asked-questions
+         | https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+         | https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Migration-Guide
+         | https://spring.io/projects/spring-authorization-server
+         | Spring Boot中文社区：https://springdoc.cn/spring-authorization-server
+         | https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server
+         | https://github.com/spring-projects/spring-authorization-server
+         |-->
+        <!-- spring-boot-starter-oauth2-authorization-server 已包含 spring-boot-starter-web -->
+        <!--
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-feign</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
-
-        <!-- common-auth -->
+        -->
+        <!-- spring-boot-starter-security
+         | https://spring.io/projects/spring-security
+         | https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix
+         |-->
+        <!--
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-auth</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        -->
 
-        <!-- common-register -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-register</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
         </dependency>
-
-        <!-- common-web -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-web</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-webmvc</artifactId>
         </dependency>
-
-        <!-- common-cache -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-cache</artifactId>
-        </dependency>
-
-        <!-- common-db -->
-        <dependency>
-            <groupId>org.microservices.common</groupId>
+            <groupId>org.xiangqian.microservices</groupId>
             <artifactId>common-db</artifactId>
         </dependency>
-
-        <!-- common-core -->
         <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-core</artifactId>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-register-factory</artifactId>
         </dependency>
-
-        <!-- common-test -->
-        <dependency>
-            <groupId>org.microservices.common</groupId>
-            <artifactId>common-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
-
     <build>
+        <resources>
+            <!-- 解决Maven压缩资源导致文件损坏问题，如：ico文件 -->
+            <resource>
+                <directory>auth/src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/**.ico</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>auth/src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/**.ico</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
-
-            <plugin>
-                <groupId>org.xiangqian</groupId>
-                <artifactId>defoliation-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>properties</id>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-logback-spring.xml</id>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>copy-bootstrap.yml</id>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>copy-package-bin</id>
+                        <id>copy-conf</id>
                         <configuration>
                             <skip>false</skip>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <skipAssembly>false</skipAssembly>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
 

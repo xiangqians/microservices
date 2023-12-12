@@ -1,4 +1,0 @@
-# 开启降级功能，Fallback、FallbackFactory
-feign:
-  circuitbreaker:
-    enabled: true

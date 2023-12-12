@@ -1,72 +1,10 @@
 spring:
-  # application
   application:
-    name: '@artifactId@'
+    name: @name@
+    version: @version@
+    description: @description@
 
-  # exclude auto configure
-  autoconfigure:
-    exclude:
-      - org.springframework.cloud.consul.config.ConsulConfigAutoConfiguration
-
-  # cloud
   cloud:
-    # consul
-    consul:
-      # 配置consul地址
-      host: ${REGISTER_HOST:register}
-      # 配置consul端口
-      port: ${REGISTER_PORT:8500}
-
-      # 服务发现
-      discovery:
-        enabled: true
-        # 注册服务名称
-        service-name: ${spring.application.name}
-        # 开启心跳机制
-        heartbeat:
-          enabled: true
-        # 服务注册标识
-        #instance-id:
-        # 表示注册时使用IP而不是hostname
-        #prefer-ip-address:
-        # 服务停止时取消注册
-        #deregister:
-        # 启用服务注册
-        #register:
-        # 健康检查失败多长时间后，取消注册
-        #health-check-critical-timeout:
-        # 健康检查路径
-        #health-check-path:
-        # 健康检查频率
-        #health-check-interval:
-
-      # 配置中心
-      config:
-        # 开启配置中心
-        enabled: true
-        # 文件前缀，默认值 config
-        prefix: config
-        # 设置应用的文件夹名称，默认值 application
-        default-context: ${spring.application.name}
-        # 配置KEY值
-        data-key: application.yml
-        # 配置环境分隔符，默认值 "," 和 ${default-context},${data-key} 配置项搭配
-        # 例如应用 gateway 分别有环境 default、dev、test、prod
-        # 只需在 ${prefix} 文件夹下创建 gateway、gateway,dev、gateway,test、gateway,prod 文件夹即可
-        profile-separator: ','
-        # eg:
-        # GET /v1/kv/${prefix}/${default-context}/${data-key}
-        # GET /v1/kv/${prefix}/${default-context},${spring.profiles.active}/${data-key}
-
-        # 文件的格式：KEY_VALUE, PROPERTIES, YAML, FILES
-        format: YAML
-        # watch
-        watch:
-          # 是否开启自动刷新，默认值 true 开启
-          enabled: true
-          # 刷新频率，单位：ms，默认值 1000
-          delay: 1000
-
     # inet
     inetutils:
       # 多网卡情况下让Nacos客户端注册指定网卡的IP
@@ -76,9 +14,15 @@ spring:
 
   # jackson
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
+    date-format: yyyy/MM/dd HH:mm:ss
     time-zone: GMT+8
 
-  # profiles
+  # 环境标识
   profiles:
-    active: '@profiles.active@'
+    active: @profiles.active@
+
+time:
+  date-format: yyyy-MM-dd
+  time-format: HH:mm:ss
+  date-time-format: '${time.date-format} ${time.time-format}'
+  time-zone: GMT+8
