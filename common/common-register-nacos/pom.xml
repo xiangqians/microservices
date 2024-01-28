@@ -12,7 +12,7 @@
     <description>nacos注册中心</description>
 
     <dependencies>
-        <!-- @nacos::begin -->
+        <!-- @nacos::start -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>

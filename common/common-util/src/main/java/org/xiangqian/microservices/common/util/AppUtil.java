@@ -1,10 +1,14 @@
 package org.xiangqian.microservices.common.util;
 
+import lombok.Getter;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+
+import java.io.InputStream;
 
 /**
  * 应用工具类
@@ -19,6 +23,7 @@ public class AppUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
     // 应用程序名称
+    @Getter
     private static String name;
 
     @Override
@@ -33,8 +38,14 @@ public class AppUtil implements ApplicationContextAware {
     }
 
     private void initNameV2() {
-        Yaml yaml = new Yaml(Thread.currentThread().getContextClassLoader().getResourceAsStream("bootstrap.yml"), true);
-        name = yaml.getString("spring.application.name");
+        InputStream inputStream = null;
+        try {
+            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("bootstrap.yml");
+            Yaml yaml = new Yaml(inputStream);
+            name = yaml.getString("spring.application.name");
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
     }
 
     public static <T> T getBean(Class<T> requiredType) {
@@ -43,15 +54,6 @@ public class AppUtil implements ApplicationContextAware {
 
     public static Object getBean(String name) {
         return applicationContext.getBean(name);
-    }
-
-    /**
-     * 获取应用程序名称
-     *
-     * @return
-     */
-    public static String getName() {
-        return name;
     }
 
 //    private static List<ReqMapping> reqMappings;

@@ -21,8 +21,8 @@ import org.springframework.security.oauth2.server.authorization.context.Authoriz
 import org.springframework.security.oauth2.server.authorization.token.DefaultOAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.xiangqian.microservices.common.util.Assert;
 
 import java.security.Principal;
 import java.util.*;

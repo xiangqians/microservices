@@ -4,20 +4,14 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Configuration;
-import org.xiangqian.microservices.common.util.NamingConvUtil;
+import org.xiangqian.microservices.common.util.NamingUtil;
 import org.xiangqian.microservices.common.util.ResourceUtil;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -49,7 +43,7 @@ public class RpcAutoConfiguration implements BeanDefinitionRegistryPostProcessor
             String serviceName = String.format("%s-biz", packageName.substring("org.xiangqian.microservices.".length(), packageName.length() - ".api".length()).replace(".", "-"));
 
             // Bean名称
-            String beanName = String.format("%sFactoryBean", NamingConvUtil.upperCamelToLowerCamel(clazz.getSimpleName()));
+            String beanName = String.format("%sFactoryBean", NamingUtil.upperCamelToLowerCamel(clazz.getSimpleName()));
 
             // Bean定义构建器
             BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(ApiFactoryBean.class);

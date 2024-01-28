@@ -37,23 +37,22 @@ import java.util.stream.Collectors;
 public class Rest {
 
     private final RestTemplate restTemplate;
-    protected final HttpHeaders headers;
 
-    public Rest(RestTemplate restTemplate, HttpHeaders headers) {
+    public Rest(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.headers = headers;
     }
 
     /**
      * HTTP DELETE
      *
      * @param url      请求地址
+     * @param headers  请求头
      * @param reqBody  请求报文
      * @param respType 响应类型
      * @param <T>
      * @return
      */
-    public <T> ResponseEntity<T> delete(String url, Object reqBody, Class<T> respType) {
+    public <T> ResponseEntity<T> delete(String url, HttpHeaders headers, Object reqBody, Class<T> respType) {
         HttpEntity<Object> entity = new HttpEntity<>(reqBody, headers);
         return restTemplate.exchange(url, HttpMethod.DELETE, entity, respType);
     }
@@ -62,12 +61,13 @@ public class Rest {
      * HTTP PUT
      *
      * @param url      请求地址
+     * @param headers  请求头
      * @param reqBody  请求报文
      * @param respType 响应类型
      * @param <T>
      * @return
      */
-    public <T> ResponseEntity<T> put(String url, Object reqBody, Class<T> respType) {
+    public <T> ResponseEntity<T> put(String url, HttpHeaders headers, Object reqBody, Class<T> respType) {
         HttpEntity<Object> entity = new HttpEntity<>(reqBody, headers);
         return restTemplate.exchange(url, HttpMethod.PUT, entity, respType);
     }
@@ -76,12 +76,13 @@ public class Rest {
      * HTTP POST
      *
      * @param url      请求地址
+     * @param headers  请求头
      * @param reqBody  请求报文
      * @param respType 响应类型
      * @param <T>
      * @return
      */
-    public <T> ResponseEntity<T> post(String url, Object reqBody, Class<T> respType) {
+    public <T> ResponseEntity<T> post(String url, HttpHeaders headers, Object reqBody, Class<T> respType) {
         HttpEntity<Object> entity = new HttpEntity<>(reqBody, headers);
         return restTemplate.exchange(url, HttpMethod.POST, entity, respType);
     }
@@ -91,11 +92,12 @@ public class Rest {
      *
      * @param url         请求地址
      * @param reqParamMap 请求参数
+     * @param headers     请求头
      * @param respType    响应类型
      * @param <T>
      * @return
      */
-    public <T> ResponseEntity<T> get(String url, Map<String, ?> reqParamMap, Class<T> respType) {
+    public <T> ResponseEntity<T> get(String url, Map<String, ?> reqParamMap, HttpHeaders headers, Class<T> respType) {
         HttpEntity<Object> entity = new HttpEntity<>(headers);
         if (CollectionUtils.isEmpty(reqParamMap)) {
             return restTemplate.exchange(url, HttpMethod.GET, entity, respType);

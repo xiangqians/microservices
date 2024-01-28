@@ -1,12 +1,8 @@
 package org.xiangqian.microservices.common.util;
 
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -23,19 +19,9 @@ public class Yaml {
         this.map = yaml.loadAs(content, Map.class);
     }
 
-    public Yaml(File file) throws FileNotFoundException {
-        this(new FileInputStream(file), true);
-    }
-
-    public Yaml(InputStream in, boolean close) {
-        try {
-            org.yaml.snakeyaml.Yaml yaml = new org.yaml.snakeyaml.Yaml();
-            this.map = yaml.loadAs(in, Map.class);
-        } finally {
-            if (close) {
-                IOUtils.closeQuietly(in);
-            }
-        }
+    public Yaml(InputStream inputStream) {
+        org.yaml.snakeyaml.Yaml yaml = new org.yaml.snakeyaml.Yaml();
+        this.map = yaml.loadAs(inputStream, Map.class);
     }
 
     public String getString(String key) {

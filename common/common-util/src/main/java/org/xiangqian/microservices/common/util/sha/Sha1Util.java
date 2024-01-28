@@ -1,4 +1,4 @@
-package org.xiangqian.microservices.common.util;
+package org.xiangqian.microservices.common.util.sha;
 
 /**
  * SHA（Secure Hash Algorithm）是一组密码散列函数，用于计算数据的哈希值。SHA算法有不同的版本，包括以下常见的几种：

@@ -86,10 +86,19 @@
 
         <!-- nimbus-jose-jwt -->
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
+
+        <!-- javascript解释器 -->
+        <mozilla-rhino.version>1.7.14</mozilla-rhino.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+                <version>${mozilla-rhino.version}</version>
+            </dependency>
 
             <!-- nimbus-jose-jwt
              | 版本出自：
@@ -124,7 +133,7 @@
                 <version>8.0.0.Final</version>
             </dependency>
 
-            <!-- @mybatis::begin -->
+            <!-- @mybatis::start -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -172,7 +181,7 @@
                 <version>${mysql-connector.version}</version>
             </dependency>
 
-            <!-- @springdoc::begin
+            <!-- @springdoc::start
              | https://springdoc.org/index.html#getting-started
              |-->
             <dependency>
@@ -208,7 +217,7 @@
                 <version>${guava.version}</version>
             </dependency>
 
-            <!-- @apache-commons::begin -->
+            <!-- @apache-commons::start -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
@@ -240,7 +249,7 @@
             </dependency>
 
             <!-- nacos依赖 -->
-            <!-- @nacos::begin -->
+            <!-- @nacos::start -->
             <!-- 服务注册与发现 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -255,7 +264,7 @@
             </dependency>
             <!-- @nacos::end -->
 
-            <!-- @microservices-module::begin -->
+            <!-- @microservices-module::start -->
             <!-- order -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
@@ -461,7 +470,7 @@
         <profile>
             <id>dev</id>
             <properties>
-                <profiles.active>dev</profiles.active>
+                <spring.profiles.active>dev</spring.profiles.active>
             </properties>
             <activation>
                 <!-- 默认环境 -->
@@ -473,7 +482,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <profiles.active>test</profiles.active>
+                <spring.profiles.active>test</spring.profiles.active>
             </properties>
         </profile>
 
@@ -481,7 +490,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <profiles.active>prod</profiles.active>
+                <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
     </profiles>

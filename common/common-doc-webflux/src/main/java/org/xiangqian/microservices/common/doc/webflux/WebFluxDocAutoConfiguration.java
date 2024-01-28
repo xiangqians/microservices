@@ -26,7 +26,7 @@ import java.util.List;
 @ConditionalOnProperty(name = {"springdoc.api-docs.enabled"}, matchIfMissing = true) // 开启openapi文档条件判断
 public class WebFluxDocAutoConfiguration {
 
-    // @org.springdoc.webflux.core.configuration.MultipleOpenApiSupportConfiguration::begin
+    // @org.springdoc.webflux.core.configuration.MultipleOpenApiSupportConfiguration::start
 
     /**
      * 无法加载 {@link org.springdoc.webflux.core.configuration.MultipleOpenApiSupportConfiguration} 配置问题

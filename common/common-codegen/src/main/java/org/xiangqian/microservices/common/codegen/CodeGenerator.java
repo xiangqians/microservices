@@ -12,10 +12,10 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Assert;
 import org.xiangqian.microservices.common.model.Entity;
 import org.xiangqian.microservices.common.register.Config;
 import org.xiangqian.microservices.common.register.ConfigService;
+import org.xiangqian.microservices.common.util.Assert;
 import org.xiangqian.microservices.common.util.Yaml;
 
 import java.io.File;

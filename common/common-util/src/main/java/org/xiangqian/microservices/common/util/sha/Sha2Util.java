@@ -1,4 +1,4 @@
-package org.xiangqian.microservices.common.util;
+package org.xiangqian.microservices.common.util.sha;
 
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Hex;

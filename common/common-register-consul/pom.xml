@@ -12,7 +12,7 @@
     <description>consul注册中心</description>
 
     <dependencies>
-        <!-- @consul::begin -->
+        <!-- @consul::start -->
         <!-- 服务注册与发现 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

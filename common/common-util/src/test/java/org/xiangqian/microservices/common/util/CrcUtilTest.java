@@ -1,13 +1,14 @@
-package org.xiangqian.microservices.common.util.crc;
+package org.xiangqian.microservices.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.xiangqian.microservices.common.util.crc.Crc16Util;
 
 /**
  * @author xiangqian
  * @date 19:21 2023/04/06
  */
-public class Crc16UtilTest {
+public class CrcUtilTest {
 
     @Test
     public void test() throws Exception {

@@ -92,7 +92,7 @@ public class AuthConfiguration {
         // 将默认的 OAuth2 security configuration 应用到 HttpSecurity
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-        // @自定义密码模式-step1::begin
+        // @自定义密码模式-step1::start
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = http.getConfigurer(OAuth2AuthorizationServerConfigurer.class);
         authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(new DelegatingAuthenticationConverter(Arrays.asList(new OAuth2AuthorizationCodeAuthenticationConverter(),
                 new OAuth2ClientCredentialsAuthenticationConverter(),
@@ -115,7 +115,7 @@ public class AuthConfiguration {
 
         SecurityFilterChain securityFilterChain = http.build();
 
-        // @自定义密码模式-step2::begin
+        // @自定义密码模式-step2::start
         UsernamePasswordAuthenticationProvider usernamePasswordAuthenticationProvider = new UsernamePasswordAuthenticationProvider(http.getSharedObject(AuthenticationManager.class),
                 http.getSharedObject(OAuth2AuthorizationService.class),
                 http.getSharedObject(OAuth2TokenGenerator.class));

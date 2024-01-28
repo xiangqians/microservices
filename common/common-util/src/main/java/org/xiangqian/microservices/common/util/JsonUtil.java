@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -32,7 +32,7 @@ public class JsonUtil {
 
     static {
         // 序列化包含设置
-//        om.setSerializationInclusion(JsonInclude.Include.ALWAYS); // 默认
+//        om.setSerializationInclusion(JsonInclude.Include.ALWAYS); // 总是格式化（默认）
         om.setSerializationInclusion(JsonInclude.Include.NON_NULL); // 属性为NULL不序列化
 
         // 查找和注册模块
@@ -40,13 +40,8 @@ public class JsonUtil {
 
         JavaTimeModule javaTimeModule = new JavaTimeModule();
 
-        // 本地日期时间序列化/反序列化器
-        DateTimeFormatter formatter = DateUtil.getFormatter("yyyy/MM/dd HH:mm:ss");
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
-
         // 本地日期序列化/反序列化器
-        formatter = DateUtil.getFormatter("yyyy/MM/dd");
+        DateTimeFormatter formatter = DateUtil.getFormatter("yyyy/MM/dd");
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(formatter));
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(formatter));
 
@@ -55,57 +50,26 @@ public class JsonUtil {
         javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(formatter));
         javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(formatter));
 
+        // 本地日期时间序列化/反序列化器
+        formatter = DateUtil.getFormatter("yyyy/MM/dd HH:mm:ss");
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
+
         om.registerModule(javaTimeModule);
     }
 
-    public static ObjectNode createObjectNode() {
-        return om.createObjectNode();
-    }
-
-    public static ArrayNode createArrayNode() {
-        return om.createArrayNode();
-    }
-
-    /**
-     * 序列化为字符串
-     *
-     * @param object 对象
-     * @param pretty 美化
-     * @return
-     * @throws IOException
-     */
-    public static String serializeAsString(Object object, boolean pretty) throws IOException {
-        if (pretty) {
-            return om.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-        }
-
-        return om.writeValueAsString(object);
+    public static String serializeAsPrettyString(Object object) throws IOException {
+        return om.writerWithDefaultPrettyPrinter().writeValueAsString(object);
     }
 
     public static String serializeAsString(Object object) throws IOException {
-        return serializeAsString(object, false);
+        return om.writeValueAsString(object);
     }
 
-    /**
-     * 序列化为字节数组
-     *
-     * @param object 对象
-     * @return
-     * @throws IOException
-     */
     public static byte[] serializeAsBytes(Object object) throws IOException {
         return om.writeValueAsBytes(object);
     }
 
-    /**
-     * 反序列化
-     *
-     * @param text
-     * @param type
-     * @param <T>
-     * @return
-     * @throws IOException
-     */
     public static <T> T deserialize(String text, Class<T> type) throws IOException {
         return om.readValue(text, type);
     }
@@ -130,12 +94,12 @@ public class JsonUtil {
         return om.convertValue(map, typeRef);
     }
 
-    public static <T> T deserialize(List list, Class<T> type) {
-        return om.convertValue(list, type);
+    public static <T> T deserialize(Collection collection, Class<T> type) {
+        return om.convertValue(collection, type);
     }
 
-    public static <T> T deserialize(List list, TypeReference<T> typeRef) {
-        return om.convertValue(list, typeRef);
+    public static <T> T deserialize(Collection collection, TypeReference<T> typeRef) {
+        return om.convertValue(collection, typeRef);
     }
 
     public static JsonNode readTree(String text) throws IOException {
@@ -144,6 +108,14 @@ public class JsonUtil {
 
     public static JsonNode readTree(byte[] bytes) throws IOException {
         return om.readTree(bytes);
+    }
+
+    public static ObjectNode createObjectNode() {
+        return om.createObjectNode();
+    }
+
+    public static ArrayNode createArrayNode() {
+        return om.createArrayNode();
     }
 
 }

@@ -2,9 +2,10 @@ package org.xiangqian.microservices.common.util;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 
 /**
  * @author xiangqian
@@ -12,106 +13,140 @@ import java.time.ZonedDateTime;
  */
 public class DateUtilTest {
 
-    private String shanghaiZoneId = "Asia/Shanghai";
-    private String newYorkZoneId = "America/New_York";
-    private String londonZoneId = "Europe/London";
+    // ======================= Date ======================
 
     @Test
-    public void nowZonedDateTime() {
-        ZonedDateTime zonedDateTime = DateUtil.now(ZonedDateTime.class);
-        System.out.println(zonedDateTime);
+    public void dateFormat() {
+        final LocalDate date = LocalDate.now();
 
-        zonedDateTime = DateUtil.now(newYorkZoneId, ZonedDateTime.class);
-        System.out.println(zonedDateTime);
-
-        zonedDateTime = DateUtil.now(londonZoneId, ZonedDateTime.class);
-        System.out.println(zonedDateTime);
-
-        // 2023-11-14T08:56:31.165162700+08:00  [Asia/Shanghai]
-        // 2023-11-13T19:56:31.166165200-05:00  [America/New_York]
-        // 2023-11-14T00:56:31.167168Z          [Europe/London]
+        final String pattern = "yyyy/MM/dd";
+        String format = DateUtil.Date.format(date, pattern);
+        System.out.println(format);
+        System.out.println(DateUtil.Date.parse(format, pattern));
     }
 
     @Test
-    public void nowLocalDateTime() {
-        // Asia/Shanghai
-        LocalDateTime localDateTime = DateUtil.now(LocalDateTime.class);
-        System.out.format("%s\t\t%s", ZoneId.systemDefault(), localDateTime).println();
+    public void dateToSecond() {
+        final LocalDate date = LocalDate.now();
 
-        String zoneId = newYorkZoneId;
-        localDateTime = DateUtil.now(zoneId, LocalDateTime.class);
-        System.out.format("%s\t%s", zoneId, localDateTime).println();
+        long second = DateUtil.Date.toSecond(date);
+        System.out.println(second);
+        System.out.println(DateUtil.Date.ofSecond(second));
+        System.out.println();
 
-        zoneId = londonZoneId;
-        localDateTime = DateUtil.now(zoneId, LocalDateTime.class);
-        System.out.format("%s\t\t%s", zoneId, localDateTime).println();
-
-        // Asia/Shanghai		2023-11-14T09:00:05.760496900
-        // America/New_York	    2023-11-13T20:00:05.762501900
-        // Europe/London		2023-11-14T01:00:05.763505100
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        second = DateUtil.Date.toSecond(date, zoneId);
+        System.out.println(second);
+        System.out.println(DateUtil.Date.ofSecond(second));
+        System.out.println(DateUtil.Date.ofSecond(second, zoneId));
     }
 
     @Test
-    public void format() {
-        String pattern = "yyyy/MM/dd HH:mm:ss.SSS";
+    public void dateToMillisecond() {
+        final LocalDate date = LocalDate.now();
 
-        String format = DateUtil.format(DateUtil.now(ZonedDateTime.class), pattern);
-        System.out.format("%s\t\t%s", ZoneId.systemDefault(), format).println();
+        long millisecond = DateUtil.Date.toMillisecond(date);
+        System.out.println(millisecond);
+        System.out.println(DateUtil.Date.ofMillisecond(millisecond));
+        System.out.println();
 
-        format = DateUtil.format(DateUtil.now(LocalDateTime.class), pattern);
-        System.out.format("%s\t\t%s", ZoneId.systemDefault(), format).println();
-
-        String zoneId = newYorkZoneId;
-        format = DateUtil.format(DateUtil.now(zoneId, LocalDateTime.class), pattern);
-        System.out.format("%s\t%s", zoneId, format).println();
-
-        zoneId = londonZoneId;
-        format = DateUtil.format(DateUtil.now(zoneId, LocalDateTime.class), pattern);
-        System.out.format("%s\t\t%s", zoneId, format).println();
-
-        // Asia/Shanghai		2023/11/14 09:04:28.474
-        // Asia/Shanghai		2023/11/14 09:04:28.479
-        // America/New_York	    2023/11/13 20:04:28.480
-        // Europe/London		2023/11/14 01:04:28.484
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        millisecond = DateUtil.Date.toMillisecond(date, zoneId);
+        System.out.println(millisecond);
+        System.out.println(DateUtil.Date.ofMillisecond(millisecond));
+        System.out.println(DateUtil.Date.ofMillisecond(millisecond, zoneId));
     }
 
     @Test
-    public void parse() {
-        String text = "2023/11/13 11:20:28.810";
-        String pattern = "yyyy/MM/dd HH:mm:ss.SSS";
+    public void dateToDate() {
+        final LocalDate date = LocalDate.now();
 
-        ZonedDateTime zonedDateTime = DateUtil.parse(text, pattern, LocalDateTime.class).atZone(ZoneId.systemDefault());
-        System.out.println(zonedDateTime);
+        Date date1 = DateUtil.Date.toDate(date);
+        System.out.println(date1);
+        System.out.println(DateUtil.Date.ofDate(date1));
+        System.out.println();
 
-        // 时区转换
-        zonedDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of(newYorkZoneId));
-        System.out.println(zonedDateTime);
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        date1 = DateUtil.Date.toDate(date, zoneId);
+        System.out.println(date1);
+        System.out.println(DateUtil.Date.ofDate(date1));
+        System.out.println(DateUtil.Date.ofDate(date1, zoneId));
+    }
 
-        // 2023/11/13T11:20:28.810+08:00    [Asia/Shanghai]
-        // 2023/11/12T22:20:28.810-05:00    [America/New_York]
+    // ======================= Time ======================
 
-        LocalDateTime localDateTime = DateUtil.parse("2023/11/14T08:45:26.694", "yyyy/MM/dd'T'HH:mm:ss.SSS", LocalDateTime.class);
-        System.out.println(localDateTime);
+    @Test
+    public void timeFormat() {
+        final LocalTime time = LocalTime.now();
+
+        final String pattern = "HH:mm:ss";
+        String format = DateUtil.Time.format(time, pattern);
+        System.out.println(format);
+        System.out.println(DateUtil.Time.parse(format, pattern));
+    }
+
+    // ======================= DateTime ======================
+
+    @Test
+    public void dateTimeFormat() {
+        final LocalDateTime dateTime = LocalDateTime.now();
+
+        final String pattern = "yyyy/MM/dd HH:mm:ss.SSS";
+        String format = DateUtil.DateTime.format(dateTime, pattern);
+        System.out.println(format);
+        System.out.println(DateUtil.DateTime.parse(format, pattern));
+        System.out.println();
+
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        System.out.println(dateTime.atZone(DateUtil.getZoneId(zoneId)));
     }
 
     @Test
-    public void toMillisecond() {
-        LocalDateTime localDateTime = DateUtil.parse("2023/11/14T08:45:26.694", "yyyy/MM/dd'T'HH:mm:ss.SSS", LocalDateTime.class);
+    public void dateTimeToSecond() {
+        final LocalDateTime dateTime = LocalDateTime.now();
 
-        String zoneId = ZoneId.systemDefault().getId();
-        long ms = DateUtil.toMillisecond(localDateTime);
-        System.out.format("%s\t\t%s", zoneId, ms).println();
-        System.out.format("%s\t\t%s", zoneId, DateUtil.ofMillisecond(ms, LocalDateTime.class)).println();
+        long second = DateUtil.DateTime.toSecond(dateTime);
+        System.out.println(second);
+        System.out.println(DateUtil.DateTime.ofSecond(second));
+        System.out.println();
 
-        zoneId = newYorkZoneId;
-        ms = DateUtil.toMillisecond(localDateTime, zoneId);
-        System.out.format("%s\t%s", zoneId, ms).println();
-        System.out.format("%s\t%s", zoneId, DateUtil.ofMillisecond(ms, zoneId, LocalDateTime.class)).println();
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        second = DateUtil.DateTime.toSecond(dateTime, zoneId);
+        System.out.println(second);
+        System.out.println(DateUtil.DateTime.ofSecond(second));
+        System.out.println(DateUtil.DateTime.ofSecond(second, zoneId));
+    }
 
-        zoneId = londonZoneId;
-        ms = DateUtil.toMillisecond(localDateTime, zoneId);
-        System.out.format("%s\t\t%s", zoneId, ms).println();
-        System.out.format("%s\t\t%s", zoneId, DateUtil.ofMillisecond(ms, zoneId, LocalDateTime.class)).println();
+    @Test
+    public void dateTimeToMillisecond() {
+        final LocalDateTime dateTime = LocalDateTime.now();
+
+        long millisecond = DateUtil.DateTime.toMillisecond(dateTime);
+        System.out.println(millisecond);
+        System.out.println(DateUtil.DateTime.ofMillisecond(millisecond));
+        System.out.println();
+
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        millisecond = DateUtil.DateTime.toMillisecond(dateTime, zoneId);
+        System.out.println(millisecond);
+        System.out.println(DateUtil.DateTime.ofMillisecond(millisecond));
+        System.out.println(DateUtil.DateTime.ofMillisecond(millisecond, zoneId));
+    }
+
+    @Test
+    public void dateTimeToDate() {
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        Date date1 = DateUtil.DateTime.toDate(dateTime);
+        System.out.println(date1);
+        System.out.println(DateUtil.DateTime.ofDate(date1));
+        System.out.println();
+
+        String zoneId = DateUtil.ZoneId.AustraliaSydney;
+        date1 = DateUtil.DateTime.toDate(dateTime, zoneId);
+        System.out.println(date1);
+        System.out.println(DateUtil.DateTime.ofDate(date1));
+        System.out.println(DateUtil.DateTime.ofDate(date1, zoneId));
     }
 
 }

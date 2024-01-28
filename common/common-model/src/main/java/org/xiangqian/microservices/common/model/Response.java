@@ -4,9 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.xiangqian.microservices.common.util.AppUtil;
-import org.xiangqian.microservices.common.util.CodeUtil;
+import org.xiangqian.microservices.common.util.ResourceUtil;
 
-import java.util.Objects;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author xiangqian
@@ -41,6 +44,25 @@ public class Response<T> {
     }
 
     public static class Builder<T> {
+        private static final Map<String, Code.Description> codeCache;
+
+        static {
+            try {
+                codeCache = new HashMap<>(1024, 1f);
+                Set<Class<?>> classes = ResourceUtil.getClasses("org.xiangqian.microservices.**.model");
+                for (Class<?> clazz : classes) {
+                    if (clazz.isInterface() && Code.class.isAssignableFrom(clazz)) {
+                        Field[] fields = clazz.getFields();
+                        for (Field field : fields) {
+                            codeCache.put(field.get(null).toString(), field.getAnnotation(Code.Description.class));
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                throw new Error(e);
+            }
+        }
+
         private String code;
         private String msg;
         private T data;
@@ -64,8 +86,11 @@ public class Response<T> {
         }
 
         public Response<T> build() {
-            if (Objects.isNull(msg)) {
-                msg = CodeUtil.getDescription(code);
+            if (msg == null) {
+                Code.Description description = codeCache.get(code);
+                if (description != null) {
+                    msg = description.zh();
+                }
             }
             return new Response<>(AppUtil.getName(), code, msg, data);
         }

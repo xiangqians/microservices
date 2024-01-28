@@ -73,7 +73,7 @@ import java.util.List;
 @ConditionalOnProperty(name = {"springdoc.api-docs.enabled"}, matchIfMissing = true) // 开启openapi文档条件判断
 public class WebMvcDocAutoConfiguration {
 
-    // @org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration::begin
+    // @org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration::start
 
     /**
      * 多个模块依赖，加载 org.springframework.boot.autoconfigure.AutoConfiguration.imports 后，无法加载 {@link org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration} 配置问题

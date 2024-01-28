@@ -14,15 +14,11 @@ spring:
 
   # jackson
   jackson:
+    # 日期格式化
     date-format: yyyy/MM/dd HH:mm:ss
-    time-zone: GMT+8
+    # 属性为NULL不序列化
+    serialization-inclusion: NON_NULL
 
   # 环境标识
   profiles:
-    active: @profiles.active@
-
-time:
-  date-format: yyyy-MM-dd
-  time-format: HH:mm:ss
-  date-time-format: '${time.date-format} ${time.time-format}'
-  time-zone: GMT+8
+    active: @spring.profiles.active@
