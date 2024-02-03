@@ -66,60 +66,70 @@ public class Page<T> implements IPage<T> {
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public List<OrderItem> orders() {
         return Collections.emptyList();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public boolean optimizeCountSql() {
         return IPage.super.optimizeCountSql();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public boolean optimizeJoinOfCountSql() {
         return IPage.super.optimizeJoinOfCountSql();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public boolean searchCount() {
         return IPage.super.searchCount();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public long offset() {
         return IPage.super.offset();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public Long maxLimit() {
         return IPage.super.maxLimit();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public long getPages() {
         return IPage.super.getPages();
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public IPage<T> setPages(long pages) {
         return IPage.super.setPages(pages);
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public List<T> getRecords() {
         return null;
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public IPage<T> setRecords(List<T> records) {
         this.data = records;
@@ -160,6 +170,7 @@ public class Page<T> implements IPage<T> {
     }
 
     @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public String countId() {
         return IPage.super.countId();

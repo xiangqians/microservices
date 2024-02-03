@@ -15,12 +15,13 @@
     <modules>
         <module>common-auth</module>
         <module>common-cache</module>
-        <module>common-codegen</module>
+        <module>common-code-generator</module>
         <module>common-db</module>
         <module>common-doc</module>
         <module>common-doc-webflux</module>
         <module>common-doc-webmvc</module>
         <module>common-model</module>
+        <module>common-monitor</module>
         <module>common-register</module>
         <module>common-register-consul</module>
         <module>common-register-nacos</module>

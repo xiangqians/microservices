@@ -17,9 +17,10 @@
 ├── common                      （公共模块）
 ├    ├── common-auth            （授权资源模块）
 ├    ├── common-cache           （缓存模块）
-├    ├── common-codegen         （代码生成模块）
+├    ├── common-code-generator  （代码生成模块）
 ├    ├── common-db              （db模块）
 ├    ├── common-model           （模型模块）
+├    ├── common-monitor         （监控模块）
 ├    ├── common-register-consul （consul注册中心工厂模块）
 ├    ├── common-register-nacos  （nacos注册中心工厂模块）
 ├    ├── common-rpc             （远程过程调用协议模块）
@@ -36,6 +37,7 @@
 ├    ├── order-api              （订单API模块）
 ├    └── order-biz              （订单业务服务模块）
 ├── auth                        （授权认证模块）
+├── monitor                     （监控模块）
 └── gateway                     （网关服务模块）
 
 分布式事务

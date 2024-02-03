@@ -1,9 +1,12 @@
 package org.xiangqian.microservices.user.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.xiangqian.microservices.common.model.Vo;
+import org.xiangqian.microservices.user.model.entity.UserEntity;
+
+import java.time.LocalDateTime;
 
 /**
  * @author xiangqian
@@ -11,11 +14,38 @@ import lombok.Data;
  */
 @Data
 @Schema(description = "更新用户信息")
-public class UserUpdVo extends UserAddVo {
+public class UserUpdVo extends UserEntity implements Vo {
 
-    @Schema(description = "主键")
-    @NotNull(message = "主键id不能为空")
-    @Min(value = 1, message = "主键id必须大于0")
-    private Long id;
+    // 不回显字段
+    @JsonIgnore
+    @Schema(hidden = true)
+    @Override
+    public String getLock() {
+        return super.getLock();
+    }
+
+    // 不回显字段
+    @JsonIgnore
+    @Schema(hidden = true)
+    @Override
+    public String getDel() {
+        return super.getDel();
+    }
+
+    // 不回显字段
+    @JsonIgnore
+    @Schema(hidden = true)
+    @Override
+    public LocalDateTime getAddTime() {
+        return super.getAddTime();
+    }
+
+    // 不回显字段
+    @JsonIgnore
+    @Schema(hidden = true)
+    @Override
+    public LocalDateTime getUpdTime() {
+        return super.getUpdTime();
+    }
 
 }

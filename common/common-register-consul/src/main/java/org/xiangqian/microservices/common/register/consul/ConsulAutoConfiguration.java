@@ -31,7 +31,7 @@ public class ConsulAutoConfiguration implements ApplicationListener<RefreshEvent
     @Override
     public void onApplicationEvent(RefreshEvent event) {
         ConfigWatch.RefreshEventData refreshEventData = (ConfigWatch.RefreshEventData) event.getEvent();
-        log.debug("配置文件发生改变: {}", refreshEventData);
+        log.debug("配置文件发生改变：{}", refreshEventData);
     }
 
 }

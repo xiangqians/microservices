@@ -1,7 +1,7 @@
 # user-biz,dev/data.yml
 
 server:
-  port: ${USER_BIZ_PORT:9200}
+  port: ${USER_BIZ_PORT:9300}
 
 spring:
   # 数据源配置
@@ -42,3 +42,12 @@ spring:
         maximum-pool-size: ${spring.datasource.hikari.maximum-pool-size}
         minimum-idle: ${spring.datasource.hikari.minimum-idle}
 
+# 监控配置
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

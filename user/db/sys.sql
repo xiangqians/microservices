@@ -51,24 +51,36 @@ CREATE TABLE `oauth_client_details`
 -- client_secret
 -- 原始密码：123456
 -- 加密后：$2a$10$yzWoLiGj/gfiDDnkcUnNkeoXUGE5mHOe034p4xbIkHxQxS7D3iJKa
-INSERT INTO `oauth_client_details` (`client_id`,`resource_ids`,`secret_required`,`client_secret`,`scope`,
-`authorized_grant_types`,
-`registered_redirect_uris`,
-`authorities`,
-`access_token_validity`,
-`refresh_token_validity`,
-`auto_approve`,
-`addl_info`)
+INSERT INTO `oauth_client_details` (`client_id`, `resource_ids`, `secret_required`, `client_secret`, `scope`,
+                                    `authorized_grant_types`,
+                                    `registered_redirect_uris`,
+                                    `authorities`,
+                                    `access_token_validity`,
+                                    `refresh_token_validity`,
+                                    `auto_approve`,
+                                    `addl_info`)
 VALUES ('d595c7492eac11ed8488000c29e749d2',
-'["microservices"]','1','$2a$10$yzWoLiGj/gfiDDnkcUnNkeoXUGE5mHOe034p4xbIkHxQxS7D3iJKa',
-'["all"]',
-'["password", "implicit", "authorization_code", "refresh_token", "client_credentials"]',
-'["https://www.google.com/"]',
-'[]',
-7200,
-259200,
-'1',
-NULL);
+        '[
+          "microservices"
+        ]', '1', '$2a$10$yzWoLiGj/gfiDDnkcUnNkeoXUGE5mHOe034p4xbIkHxQxS7D3iJKa',
+        '[
+          "all"
+        ]',
+        '[
+          "password",
+          "implicit",
+          "authorization_code",
+          "refresh_token",
+          "client_credentials"
+        ]',
+        '[
+          "https://www.google.com/"
+        ]',
+        '[]',
+        7200,
+        259200,
+        '1',
+        NULL);
 
 
 

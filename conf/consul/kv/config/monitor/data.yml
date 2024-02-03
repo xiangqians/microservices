@@ -1,0 +1,8 @@
+# monitor/data.yml
+
+spring:
+  boot:
+    admin:
+      discovery:
+        # 忽略 monitor服务（当前服务）、consul服务（如果不忽略会出错）
+        ignored-services: monitor,consul

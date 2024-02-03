@@ -14,14 +14,12 @@ import org.xiangqian.microservices.order.model.entity.OrderEntity;
 @Schema(description = "订单信息")
 public class OrderVo extends OrderEntity implements Vo {
 
-    @JsonIgnore // 不回显del字段
+    // 不回显字段
+    @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public String getDel() {
         return super.getDel();
-    }
-
-    @Override
-    public void validate(Class<?>... groups) throws Exception {
     }
 
 }

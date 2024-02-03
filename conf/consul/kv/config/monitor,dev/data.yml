@@ -1,0 +1,31 @@
+# monitor,dev/data.yml
+
+server:
+  port: ${MONITOR_PORT:9100}
+
+spring:
+  security:
+    # 账号/密码
+    user:
+      name: admin
+      password: admin
+
+    # 启用CSRF防护
+    csrf:
+      enabled: true
+      # 定义CSRF令牌的请求参数名称
+      #parameter-name: _csrf
+      # 定义存储和获取CSRF令牌值的请求属性名称
+      #token-attribute-name: _csrf
+
+    # 定义需要排除CSRF防护的URL
+    ignored: /logout
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

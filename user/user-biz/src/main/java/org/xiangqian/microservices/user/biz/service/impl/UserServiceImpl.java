@@ -5,11 +5,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xiangqian.microservices.common.model.Page;
+import org.xiangqian.microservices.common.model.PageRequest;
 import org.xiangqian.microservices.common.util.Assert;
 import org.xiangqian.microservices.user.biz.mapper.UserMapper;
 import org.xiangqian.microservices.user.biz.service.UserService;
 import org.xiangqian.microservices.user.model.entity.UserEntity;
 import org.xiangqian.microservices.user.model.vo.UserAddVo;
+import org.xiangqian.microservices.user.model.vo.UserPageVo;
 import org.xiangqian.microservices.user.model.vo.UserUpdVo;
 import org.xiangqian.microservices.user.model.vo.UserVo;
 
@@ -29,8 +31,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper mapper;
 
     @Override
-    public Page<UserVo> page(Page page, UserVo vo) {
-        return mapper.page(page, vo.copyProperties(UserEntity.class))
+    public Page<UserVo> page(PageRequest pageRequest, UserPageVo vo) {
+        return mapper.page(pageRequest, vo.copyProperties(UserEntity.class))
                 .conv(entity -> entity.copyProperties(UserVo.class));
     }
 
@@ -79,9 +81,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean add(UserAddVo vo) {
         UserEntity entity = vo.copyProperties(UserEntity.class);
-        if (true) {
-            return false;
-        }
         return mapper.insert(entity) > 0;
     }
 

@@ -6,6 +6,7 @@ import com.ecwid.consul.v1.QueryParams;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.consul.ConsulAutoConfiguration;
 import org.springframework.cloud.consul.ConsulProperties;
@@ -14,9 +15,9 @@ import org.xiangqian.microservices.common.register.Config;
 import org.xiangqian.microservices.common.register.ConfigService;
 import org.xiangqian.microservices.common.util.Yaml;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -25,51 +26,45 @@ import java.util.function.Supplier;
  */
 public class ConsulConfigServiceImpl implements ConfigService {
 
-    private String appName;
-    private String profile;
-
     private ConsulProperties consulProperties;
     private ConsulConfigProperties consulConfigProperties;
+
+    private String appName;
+    private String profile;
 
     private List<String> keyPrefixes;
 
     public ConsulConfigServiceImpl() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Yaml configBootstrapYaml = new Yaml(classLoader.getResourceAsStream("config/bootstrap.yml"), true);
-        Yaml bootstrapYaml = new Yaml(classLoader.getResourceAsStream("bootstrap.yml"), true);
+        InputStream configBootstrapYamlInputStream = null;
+        InputStream bootstrapYamlInputStream = null;
+        try {
+            configBootstrapYamlInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config/bootstrap.yml");
+            Yaml configBootstrapYaml = new Yaml(configBootstrapYamlInputStream);
+            consulProperties = new ConsulProperties();
+            String host = configBootstrapYaml.getString("spring.cloud.consul.host");
+            consulProperties.setHost(host);
+            int port = configBootstrapYaml.getInt("spring.cloud.consul.port").intValue();
+            consulProperties.setPort(port);
+            consulConfigProperties = new ConsulConfigProperties();
+            String prefix = configBootstrapYaml.getString("spring.cloud.consul.config.prefix");
+            consulConfigProperties.setPrefix(prefix);
+            String dataKey = configBootstrapYaml.getString("spring.cloud.consul.config.data-key");
+            consulConfigProperties.setDataKey(dataKey);
+            String defaultContext = configBootstrapYaml.getString("spring.cloud.consul.config.default-context");
+            consulConfigProperties.setDefaultContext(defaultContext);
 
-        appName = getValue(bootstrapYaml, "spring.application.name");
-        profile = getValue(bootstrapYaml, "spring.profiles.active");
+            bootstrapYamlInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("bootstrap.yml");
+            Yaml bootstrapYaml = new Yaml(bootstrapYamlInputStream);
+            appName = bootstrapYaml.getString("spring.application.name");
+            profile = bootstrapYaml.getString("spring.profiles.active");
 
-        consulProperties = new ConsulProperties();
-        consulProperties.setHost(getValue(configBootstrapYaml, "spring.cloud.consul.host"));
-        consulProperties.setPort(Integer.parseInt(getValue(configBootstrapYaml, "spring.cloud.consul.port")));
-
-        consulConfigProperties = new ConsulConfigProperties();
-        String prefix = getValue(configBootstrapYaml, "spring.cloud.consul.config.prefix");
-        consulConfigProperties.setPrefix(prefix);
-        String dataKey = getValue(configBootstrapYaml, "spring.cloud.consul.config.data-key");
-        consulConfigProperties.setDataKey(dataKey);
-        String defaultContext = getValue(configBootstrapYaml, "spring.cloud.consul.config.default-context");
-        consulConfigProperties.setDefaultContext(defaultContext);
-
-        keyPrefixes = List.of(String.format("%s/%s,%s/", prefix, appName, profile),
-                String.format("%s/%s/", prefix, appName),
-                String.format("%s/%s,%s/", prefix, defaultContext, profile),
-                String.format("%s/%s/", prefix, defaultContext, profile));
-    }
-
-    private String getValue(Yaml yaml, String key) {
-        String value = yaml.getString(key);
-
-        // eg: ${REGISTER_HOST:register}
-        if (value.startsWith("${") && value.contains(":") && value.endsWith("}")) {
-            int index = value.indexOf(":");
-            String name = value.substring("${".length(), index);
-            return Optional.ofNullable(System.getenv(name)).orElse(value.substring(index + 1, value.length() - "}".length()));
+            keyPrefixes = List.of(String.format("%s/%s,%s/", prefix, appName, profile),
+                    String.format("%s/%s/", prefix, appName),
+                    String.format("%s/%s,%s/", prefix, defaultContext, profile),
+                    String.format("%s/%s/", prefix, defaultContext, profile));
+        } finally {
+            IOUtils.closeQuietly(configBootstrapYamlInputStream, bootstrapYamlInputStream);
         }
-
-        return value;
     }
 
     @Override
@@ -77,16 +72,17 @@ public class ConsulConfigServiceImpl implements ConfigService {
         Supplier<ConsulRawClient.Builder> consulRawClientBuilderSupplier = org.springframework.cloud.consul.ConsulAutoConfiguration.createConsulRawClientBuilder();
         ConsulClient consulClient = ConsulAutoConfiguration.createConsulClient(consulProperties, consulRawClientBuilderSupplier);
         String token = consulConfigProperties.getAclToken();
+        String dataKey = consulConfigProperties.getDataKey();
         QueryParams queryParams = QueryParams.DEFAULT;
         List<Config> list = new ArrayList<>(keyPrefixes.size());
         for (String keyPrefix : keyPrefixes) {
             Response<List<GetValue>> response = consulClient.getKVValues(keyPrefix, token, queryParams);
             List<GetValue> values = response.getValue();
             if (CollectionUtils.isNotEmpty(values)) {
-                String dataKey = consulConfigProperties.getDataKey();
                 for (GetValue value : values) {
-                    if (value.getKey().endsWith(dataKey)) {
-                        list.add(new Config(value.getKey(), Optional.ofNullable(value.getDecodedValue()).map(StringUtils::trim).orElse(null)));
+                    String key = value.getKey();
+                    if (key.endsWith(dataKey)) {
+                        list.add(new Config(key, StringUtils.trim(value.getDecodedValue())));
                     }
                 }
             }

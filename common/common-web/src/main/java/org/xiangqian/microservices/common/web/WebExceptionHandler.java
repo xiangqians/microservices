@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebInputException;
 import org.xiangqian.microservices.common.model.Response;
 import org.xiangqian.microservices.common.util.Assert;
-import org.xiangqian.microservices.common.util.MessageUtil;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -92,10 +91,9 @@ public abstract class WebExceptionHandler {
 
     // 处理断言异常
     protected Response<?> handle(Assert.Exception exception) {
-        String code = exception.getCode();
+        String code = exception.getMessage();
         return Response.builder()
-                .code(exception.getCode())
-                .msg(MessageUtil.get(code, exception.getArgs()))
+                .code(code)
                 .build();
     }
 
@@ -138,10 +136,8 @@ public abstract class WebExceptionHandler {
     // 处理绑定结果异常
     protected Response<?> handle(BindingResult bindingResult) {
         String code = bindingResult.getFieldError().getDefaultMessage();
-        String msg = MessageUtil.get(code);
         return Response.builder()
                 .code(code)
-                .msg(msg)
                 .build();
     }
 

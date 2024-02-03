@@ -1,13 +1,15 @@
 package org.xiangqian.microservices.user.api;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.service.annotation.GetExchange;
-import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.*;
 import org.xiangqian.microservices.common.model.Page;
+import org.xiangqian.microservices.common.model.PageRequest;
 import org.xiangqian.microservices.common.model.Response;
+import org.xiangqian.microservices.user.model.vo.UserAddVo;
+import org.xiangqian.microservices.user.model.vo.UserPageVo;
+import org.xiangqian.microservices.user.model.vo.UserUpdVo;
 import org.xiangqian.microservices.user.model.vo.UserVo;
-
-import java.time.LocalDateTime;
 
 /**
  * @author xiangqian
@@ -53,28 +55,27 @@ public interface UserApi {
     //    @GetExchange("/books")
     //    List<Book> getBooks();
     //
-    //    @GetExchange("/books/{id}")
-    //    Book getBook(@PathVariable long id);
-    //
-    //    @PostExchange("/books")
-    //    Book saveBook(@RequestBody Book book);
-    //
     //    @DeleteExchange("/books/{id}")
     //    ResponseEntity<Void> deleteBook(@PathVariable long id);
     //}
 
-
     //@PostExchange("upload")
-    //Response<Void> upload(@PathVariable("module") String module, @RequestPart("files") MultipartFile[] files);
-
-    //@GetExchange("downloadByDbId/{dbId}")
-    //void downloadByDbId(HttpServletResponse response, @PathVariable("dbId") Long dbId);
-
-    @GetExchange("/test")
-    Response<LocalDateTime> test();
+    //Response<Void> upload(@RequestPart("files") MultipartFile[] files);
 
     @GetExchange("/page")
-    Response<Page<UserVo>> page(Page<UserVo> page, @RequestBody UserVo vo);
+    Response<Page<UserVo>> page(PageRequest pageRequest, UserPageVo vo);
+
+    @GetExchange("/{id}")
+    Response<UserVo> getById(@PathVariable("id") Long id);
+
+    @PutExchange
+    Response<Boolean> updById(@RequestBody UserUpdVo vo);
+
+    @DeleteExchange("/{id}")
+    Response<Boolean> delById(@PathVariable("id") Long id);
+
+    @PostExchange
+    Response<Boolean> add(@RequestBody UserAddVo vo);
 
 }
 // https://howtodoinjava.com/spring-webflux/http-declarative-http-client-httpexchange/

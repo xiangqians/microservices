@@ -1,7 +1,7 @@
 # auth,dev/data.yml
 
 server:
-  port: ${AUTH_PORT:9100}
+  port: ${AUTH_PORT:9200}
 
 spring:
   # 数据源配置

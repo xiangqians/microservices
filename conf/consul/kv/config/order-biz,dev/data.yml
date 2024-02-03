@@ -1,7 +1,7 @@
 # order-biz,dev/data.yml
 
 server:
-  port: ${ORDER_BIZ_PORT:9300}
+  port: ${ORDER_BIZ_PORT:9400}
 
 spring:
   # 数据源配置
@@ -17,3 +17,13 @@ spring:
       maximum-pool-size: 5
       # 池中最小空闲连接数量
       minimum-idle: 1
+
+# 监控配置
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

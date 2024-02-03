@@ -1,22 +1,32 @@
 package org.xiangqian.microservices.common.doc.webmvc;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.springdoc.core.customizers.ParameterCustomizer;
 import org.springdoc.core.customizers.SpringDocCustomizers;
+import org.springdoc.core.discoverer.SpringDocParameterNameDiscoverer;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.SpringDocProviders;
-import org.springdoc.core.service.AbstractRequestService;
-import org.springdoc.core.service.GenericResponseService;
-import org.springdoc.core.service.OpenAPIService;
-import org.springdoc.core.service.OperationService;
+import org.springdoc.core.service.*;
 import org.springdoc.webmvc.api.MultipleOpenApiWebMvcResource;
+import org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration;
+import org.springdoc.webmvc.core.service.RequestService;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.MethodParameter;
 
+import java.lang.reflect.Executable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * customizer
@@ -71,7 +81,7 @@ import java.util.List;
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = {"springdoc.api-docs.enabled"}, matchIfMissing = true) // 开启openapi文档条件判断
-public class WebMvcDocAutoConfiguration {
+public class WebMvcDocAutoConfiguration implements BeanDefinitionRegistryPostProcessor {
 
     // @org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration::start
 
@@ -101,5 +111,52 @@ public class WebMvcDocAutoConfiguration {
     }
 
     // @org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration::end
+
+    // @解决GET请求@ParameterObject修饰的实体类中方法使用@Schema(hidden = true)注解无效问题::start
+
+    /**
+     * 重新定义 {@link SpringDocWebMvcConfiguration} -> {@link RequestService}
+     *
+     * @param registry
+     * @throws BeansException
+     */
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        // Bean名称
+        final String beanName = "requestBuilder";
+
+        // 移除原有的Bean定义
+        registry.removeBeanDefinition(beanName);
+
+        // 新Bean定义
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(CustomRequestService.class);
+
+        // 注册新Bean定义
+        registry.registerBeanDefinition(beanName, beanDefinitionBuilder.getBeanDefinition());
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    }
+
+    public static class CustomRequestService extends RequestService {
+        public CustomRequestService(GenericParameterService parameterBuilder, RequestBodyService requestBodyService, OperationService operationService, Optional<List<ParameterCustomizer>> parameterCustomizers, SpringDocParameterNameDiscoverer localSpringDocParameterNameDiscoverer) {
+            super(parameterBuilder, requestBodyService, operationService, parameterCustomizers, localSpringDocParameterNameDiscoverer);
+        }
+
+        @Override
+        public boolean isParamToIgnore(MethodParameter parameter) {
+            Executable executable = parameter.getExecutable();
+            if (executable != null) {
+                Schema schema = executable.getAnnotation(Schema.class);
+                if (schema != null && schema.hidden()) {
+                    return true;
+                }
+            }
+            return super.isParamToIgnore(parameter);
+        }
+    }
+
+    // @解决GET请求@ParameterObject修饰的实体类中方法使用@Schema(hidden = true)注解无效问题::end
 
 }

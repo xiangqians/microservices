@@ -15,20 +15,20 @@ public class Md5Util {
         return DigestUtils.md5(data);
     }
 
-    public static String encryptHex(InputStream data) throws IOException {
-        return DigestUtils.md5Hex(data);
-    }
-
     public static byte[] encrypt(byte[] data) {
         return DigestUtils.md5(data);
     }
 
-    public static String encryptHex(byte[] data) {
+    public static byte[] encrypt(String data) {
+        return DigestUtils.md5(data);
+    }
+
+    public static String encryptHex(InputStream data) throws IOException {
         return DigestUtils.md5Hex(data);
     }
 
-    public static byte[] encrypt(String data) {
-        return DigestUtils.md5(data);
+    public static String encryptHex(byte[] data) {
+        return DigestUtils.md5Hex(data);
     }
 
     public static String encryptHex(String data) {

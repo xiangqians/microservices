@@ -15,10 +15,10 @@
         <!--
          | 系统读取bootstrap.yml文件
          | 如果存在多个配置文件，读取顺序如下：
-         | 1. config/bootstrap.yml
-         | 2. bootstrap.yml
-         | 3. config/application.yml
-         | 4. application.yml
+         | 1、config/bootstrap.yml
+         | 2、bootstrap.yml
+         | 3、config/application.yml
+         | 4、application.yml
          |-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -36,10 +36,6 @@
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
             <artifactId>common-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-util</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

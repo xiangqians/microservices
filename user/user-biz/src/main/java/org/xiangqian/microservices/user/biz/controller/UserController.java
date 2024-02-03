@@ -12,15 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.xiangqian.microservices.common.model.Page;
+import org.xiangqian.microservices.common.model.PageRequest;
 import org.xiangqian.microservices.common.model.Response;
 import org.xiangqian.microservices.common.webflux.AbsController;
 import org.xiangqian.microservices.user.biz.service.UserService;
 import org.xiangqian.microservices.user.model.vo.UserAddVo;
+import org.xiangqian.microservices.user.model.vo.UserPageVo;
 import org.xiangqian.microservices.user.model.vo.UserUpdVo;
 import org.xiangqian.microservices.user.model.vo.UserVo;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
 
 /**
  * @author xiangqian
@@ -35,12 +35,6 @@ public class UserController extends AbsController {
 
     @Autowired
     private UserService service;
-
-    @GetMapping("/test")
-    @Operation(summary = "test", description = "test")
-    public Mono<ResponseEntity<Response<LocalDateTime>>> test() {
-        return mono(() -> LocalDateTime.now());
-    }
 
     // @ParameterObject
     // The usage of @ParameterObject is wrong. This annotation extracts fields from parameter object.
@@ -58,9 +52,9 @@ public class UserController extends AbsController {
 
     @GetMapping("/page")
     @Operation(summary = "分页查询用户", description = "分页查询用户")
-    public Mono<ResponseEntity<Response<Page<UserVo>>>> page(@ParameterObject Page page, @ParameterObject UserVo vo) {
+    public Mono<ResponseEntity<Response<Page<UserVo>>>> page(@ParameterObject PageRequest pageRequest, @ParameterObject UserPageVo vo) {
         log.info("begin");
-        Mono<ResponseEntity<Response<Page<UserVo>>>> mono = mono(() -> service.page(page, vo));
+        Mono<ResponseEntity<Response<Page<UserVo>>>> mono = mono(() -> service.page(pageRequest, vo));
         log.info("end");
         return mono;
     }

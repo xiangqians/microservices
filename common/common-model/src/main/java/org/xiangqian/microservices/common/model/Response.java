@@ -49,7 +49,7 @@ public class Response<T> {
         static {
             try {
                 codeCache = new HashMap<>(1024, 1f);
-                Set<Class<?>> classes = ResourceUtil.getClasses("org.xiangqian.microservices.**.model");
+                Set<Class<?>> classes = ResourceUtil.getClasses("org.xiangqian.microservices.**");
                 for (Class<?> clazz : classes) {
                     if (clazz.isInterface() && Code.class.isAssignableFrom(clazz)) {
                         Field[] fields = clazz.getFields();

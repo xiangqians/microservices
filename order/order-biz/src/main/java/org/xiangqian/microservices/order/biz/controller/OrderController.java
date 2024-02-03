@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.xiangqian.microservices.common.model.Page;
+import org.xiangqian.microservices.common.model.PageRequest;
 import org.xiangqian.microservices.common.model.Response;
+import org.xiangqian.microservices.common.model.validation.group.Add;
+import org.xiangqian.microservices.common.model.validation.group.Page;
+import org.xiangqian.microservices.common.model.validation.group.Upd;
 import org.xiangqian.microservices.common.webmvc.AbsController;
 import org.xiangqian.microservices.order.biz.service.OrderService;
 import org.xiangqian.microservices.order.model.vo.OrderAddVo;
+import org.xiangqian.microservices.order.model.vo.OrderPageVo;
 import org.xiangqian.microservices.order.model.vo.OrderUpdVo;
 import org.xiangqian.microservices.order.model.vo.OrderVo;
 
@@ -34,8 +38,8 @@ public class OrderController extends AbsController {
 
     @GetMapping("/page")
     @Operation(summary = "分页查询订单", description = "分页查询订单")
-    public Response<Page<OrderVo>> page(@ParameterObject Page page, @ParameterObject OrderVo vo) {
-        return response(service.page(page, vo));
+    public Response<org.xiangqian.microservices.common.model.Page> page(@ParameterObject PageRequest pageRequest, @ParameterObject @Validated(Page.class) OrderPageVo vo) {
+        return response(service.page(pageRequest, vo));
     }
 
     @GetMapping("/{id}")
@@ -46,7 +50,7 @@ public class OrderController extends AbsController {
 
     @PutMapping
     @Operation(summary = "修改订单", description = "根据id修改订单")
-    public Response<Boolean> updById(@RequestBody @Validated OrderUpdVo vo) {
+    public Response<Boolean> updById(@RequestBody @Validated(Upd.class) OrderUpdVo vo) {
         return response(service.updById(vo));
     }
 
@@ -58,7 +62,7 @@ public class OrderController extends AbsController {
 
     @PostMapping
     @Operation(summary = "新增订单", description = "新增订单")
-    public Response<Boolean> add(@RequestBody @Validated OrderAddVo vo) {
+    public Response<Boolean> add(@RequestBody @Validated(Add.class) OrderAddVo vo) {
         return response(service.add(vo));
     }
 

@@ -1,8 +1,10 @@
 package org.xiangqian.microservices.user.biz.service;
 
 import org.xiangqian.microservices.common.model.Page;
+import org.xiangqian.microservices.common.model.PageRequest;
 import org.xiangqian.microservices.user.model.entity.UserEntity;
 import org.xiangqian.microservices.user.model.vo.UserAddVo;
+import org.xiangqian.microservices.user.model.vo.UserPageVo;
 import org.xiangqian.microservices.user.model.vo.UserUpdVo;
 import org.xiangqian.microservices.user.model.vo.UserVo;
 
@@ -12,7 +14,7 @@ import org.xiangqian.microservices.user.model.vo.UserVo;
  */
 public interface UserService {
 
-    Page<UserVo> page(Page page, UserVo vo);
+    Page<UserVo> page(PageRequest pageRequest, UserPageVo vo);
 
     /**
      * 根据用户名获取用户信息

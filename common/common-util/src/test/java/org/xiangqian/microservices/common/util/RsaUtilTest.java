@@ -74,25 +74,24 @@ public class RsaUtilTest {
         boolean longer = true;
         if (longer) {
             data = """
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
-                    Pm/IbV8+7y+efNNQDV8Kz9f0IeATo5lyOXNgiOsa8ck50Ft1lkU9gdef0TKmfONQ/xYPsEIEN4A+Jh9EjFwLJ/shaWQnl7mZFM2xF0wLFstVs2dDW6wKp4QhA078/+DWq257axL2t4BgdJrCuf3n1jEXU9r2ZAaJZNaoqXPzhxY=
+                    春夜宴桃李园序 / 春夜宴从弟桃花园序
+                    【作者】李白 【朝代】唐
+                    夫天地者，万物之逆旅也；光阴者，百代之过客也。
+                    而浮生若梦，为欢几何？
+                    古人秉烛夜游，良有以也。
+                    况阳春召我以烟景，大块假我以文章。
+                    会桃花之芳园，序天伦之乐事。
+                    群季俊秀，皆为惠连；吾人咏歌，独惭康乐。
+                    幽赏未已，高谈转清。
+                    开琼筵以坐花，飞羽觞而醉月。
+                    不有佳咏，何伸雅怀？
+                    如诗不成，罚依金谷酒数。
                     """.getBytes(StandardCharsets.UTF_8);
         }
 
         ecb(RsaEcbUtil.Default, keyPair, data);
-//        ecb(RsaEcbUtil.NoPadding, keyPair, data);
-//        ecb(RsaEcbUtil.PKCS1Padding, keyPair, data);
+        ecb(RsaEcbUtil.NoPadding, keyPair, data);
+        ecb(RsaEcbUtil.PKCS1Padding, keyPair, data);
 //        ecb(RsaEcbUtil.OAEPWithSHA1AndMGF1Padding, keyPair, data);
 //        ecb(RsaEcbUtil.OAEPWithSHA256AndMGF1Padding, keyPair, data);
     }

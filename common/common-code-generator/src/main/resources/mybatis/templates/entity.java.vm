@@ -1,0 +1,223 @@
+package ${package.Entity};
+
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+#if(${swagger})
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+#end
+#if(${entityLombokModel})
+import lombok.Data;
+#if(${chainModel})
+import lombok.experimental.Accessors;
+#end
+#end
+
+/**
+ * $!{table.comment}
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+#if(${entityLombokModel})
+@Data
+  #if(${chainModel})
+@Accessors(chain = true)
+  #end
+#end
+#if(${table.convert})
+@TableName("${schemaName}${table.name}")
+#end
+#if(${swagger})
+@Schema(description = "$!{table.comment}")
+#end
+#if(${superEntityClass})
+  #if(${superEntityClass})
+public class ${entity} implements ${superEntityClass} {
+  #else
+public class ${entity} extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+  #end
+#elseif(${activeRecord})
+public class ${entity} extends Model<${entity}> {
+#elseif(${entitySerialVersionUID})
+public class ${entity} implements Serializable {
+#else
+public class ${entity} {
+#end
+#if(${entitySerialVersionUID})
+
+    private static final long serialVersionUID = 1L;
+#end
+#set($codes = {})
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+
+#if("$!field.comment" != "" && !${swagger})
+    /**
+     * ${field.comment}
+     */
+#end
+#if("$!field.comment" != "" && ${swagger})
+#if(${field.propertyType.equals("Short")})
+#set($codeName = ${table.name} + "_" + ${field.name} + "_MAX")
+#set($codeName = $codeName.toUpperCase())
+#set($codeValue =  """" + "【${field.comment}】不能大于" + """" + " + Short.MAX_VALUE")
+#set($result = $codes.put($codeName, $codeValue))
+    @Max(value = Short.MAX_VALUE, message = XxxCode.${codeName})
+#elseif(${field.propertyType.equals("Integer")})
+#set($codeName = ${table.name} + "_" + ${field.name} + "_MAX")
+#set($codeName = $codeName.toUpperCase())
+#set($codeValue =  """" + "【${field.comment}】不能大于" + """" + " + Integer.MAX_VALUE")
+#set($result = $codes.put($codeName, $codeValue))
+    @Max(value = Integer.MAX_VALUE, message = XxxCode.${codeName})
+#elseif(${field.propertyType.equals("Long")})
+#set($codeName = ${table.name} + "_" + ${field.name} + "_MAX")
+#set($codeName = $codeName.toUpperCase())
+#set($codeValue =  """" + "【${field.comment}】不能大于" + """" + " + Long.MAX_VALUE")
+#set($result = $codes.put($codeName, $codeValue))
+    @Max(value = Long.MAX_VALUE, message = XxxCode.${codeName})
+#elseif(${field.propertyType.equals("BigDecimal")})
+## 整数部分
+#set($integerLength=(${field.metaInfo.length}-${field.metaInfo.scale}))
+###set($integerMaxValue = 1)
+###foreach($i in [1..$integerLength])
+###set($integerMaxValue = $integerMaxValue * 10)
+###end
+###set($integerMaxValue = $integerMaxValue - 1)
+###set($maxValue = $integerMaxValue)
+## 小数部分
+#set($fractionLength=${field.metaInfo.scale})
+###if($fractionLength > 0)
+###set($fractionMaxValue = 1)
+###foreach($i in [1..$fractionLength])
+###set($fractionMaxValue = $fractionMaxValue * 10)
+###end
+###set($fractionMaxValue = $fractionMaxValue - 1)
+###set($maxValue = $maxValue + "." + $fractionMaxValue)
+###end
+###set($codeName = ${table.name.toUpperCase()} + "_" + ${field.name.toUpperCase()} + "_DECIMAL_MAX")
+###set($codeName = $codeName.toUpperCase())
+###set($codeValue =  """" + "【${field.comment}】不能大于${maxValue}" + """")
+###set($result = $codes.put($codeName, $codeValue))
+##    @DecimalMax(value = "${maxValue}", message = XxxCode.${codeName})
+#set($codeName = ${table.name.toUpperCase()} + "_" + ${field.name.toUpperCase()} + "_DIGITS")
+#set($codeName = $codeName.toUpperCase())
+#set($codeValue =  """" + "整数部分长度不能大于${integerLength}位，小数部分长度不能大于${fractionLength}位" + """")
+#set($result = $codes.put($codeName, $codeValue))
+    @Digits(integer = ${integerLength}, fraction = ${fractionLength}, message = XxxCode.${codeName})
+#elseif(${field.propertyType.equals("String")})
+#set($codeName = ${table.name.toUpperCase()} + "_" + ${field.name.toUpperCase()} + "_SIZE")
+#set($codeName = $codeName.toUpperCase())
+#set($codeValue =  """" + "【${field.comment}】长度不能大于${field.metaInfo.length}个字符" + """")
+#set($result = $codes.put($codeName, $codeValue))
+    @Size(max = ${field.metaInfo.length}, message = XxxCode.${codeName})
+#end
+#if(!${field.metaInfo.nullable})
+#set($codeName = ${table.name.toUpperCase()} + "_" + ${field.name.toUpperCase()} + "_NOT_NULL")
+#set($codeName = $codeName.toUpperCase())
+#set($codeValue =  """" + "【${field.comment}】不能为空" + """")
+#set($result = $codes.put($codeName, $codeValue))
+    @NotNull(message = XxxCode.${codeName})
+#end
+    @Schema(description = "${field.comment}")
+#end
+## 乐观锁注解
+#if(${field.versionField})
+    @Version
+#end
+## 逻辑删除注解
+#if(${field.logicDeleteField})
+    @TableLogic
+#end
+#if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+#if(${field.keyFlag})
+#if(${field.keyIdentityFlag})
+    @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
+#elseif(!$null.isNull(${idType}) && "$!idType" != "")
+    @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
+#elseif(${field.convert})
+    @TableId("${field.annotationColumnName}")
+#end
+## 普通字段
+#elseif(${field.fill})
+## -----   存在字段填充设置   -----
+#if(${field.convert})
+    @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
+#else
+    @TableField(fill = FieldFill.${field.fill})
+#end
+#elseif(${field.convert})
+    @TableField("${field.annotationColumnName}")
+#end
+    private ${field.propertyType} ${field.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+#if(!${entityLombokModel})
+#foreach($field in ${table.fields})
+  #if(${field.propertyType.equals("boolean")})
+    #set($getprefix="is")
+  #else
+    #set($getprefix="get")
+  #end
+
+    public ${field.propertyType} ${getprefix}${field.capitalName}() {
+        return ${field.propertyName};
+    }
+
+  #if(${chainModel})
+    public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+  #else
+    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+  #end
+        this.${field.propertyName} = ${field.propertyName};
+  #if(${chainModel})
+        return this;
+  #end
+    }
+#end
+## --foreach end---
+#end
+## --end of #if(!${entityLombokModel})--
+
+#if(${entityColumnConstant})
+  #foreach($field in ${table.fields})
+    public static final String ${field.name.toUpperCase()} = "${field.name}";
+
+  #end
+#end
+#if(${activeRecord})
+    @Override
+    public Serializable pkVal() {
+  #if(${keyPropertyName})
+        return this.${keyPropertyName};
+  #else
+        return null;
+  #end
+    }
+
+#end
+#if(!${entityLombokModel})
+    @Override
+    public String toString() {
+        return "${entity}{" +
+  #foreach($field in ${table.fields})
+    #if($!{foreach.index}==0)
+        "${field.propertyName}=" + ${field.propertyName} +
+    #else
+        ", ${field.propertyName}=" + ${field.propertyName} +
+    #end
+  #end
+        "}";
+    }
+#end
+#foreach($code in $codes.entrySet())
+#set($codeName = $code.getKey().toString())
+#set($codeValue = $code.getValue().toString())
+    @Description(zh = $codeValue)
+    String $codeName = "$codeName.toLowerCase()";
+
+#end
+}

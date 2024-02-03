@@ -51,11 +51,11 @@ public class RsaKeyPairUtil {
     /**
      * 生成密钥对
      *
-     * @param size 密钥长度
+     * @param bitLength 密钥长度，单位：bit
      * @return
      * @throws Exception
      */
-    private static KeyPair generateKeyPair(int size) throws NoSuchAlgorithmException {
+    private static KeyPair generateKeyPair(int bitLength) throws NoSuchAlgorithmException {
         // 密钥算法提供者
         // 获取BC（Bouncy Castle）提供的RSA实例
         // String provider = "BC";
@@ -64,7 +64,7 @@ public class RsaKeyPairUtil {
         // java.security.KeyPairGenerator.getInstance(java.lang.String algorithm,  // 密钥算法
         //       java.lang.String provider) // 密钥提供者
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-        generator.initialize(size);
+        generator.initialize(bitLength);
         return generator.generateKeyPair();
     }
 

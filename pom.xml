@@ -15,6 +15,7 @@
         <module>auth</module>
         <module>common</module>
         <module>gateway</module>
+        <module>monitor</module>
         <module>order</module>
         <module>user</module>
     </modules>
@@ -89,10 +90,26 @@
 
         <!-- javascript解释器 -->
         <mozilla-rhino.version>1.7.14</mozilla-rhino.version>
+
+        <!-- Spring Boot Admin -->
+        <!-- spring-boot 3.1.x 必须对应 spring-boot-admin 3.1.x -->
+        <spring-boot-admin.version>3.1.1</spring-boot-admin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- @spring-boot-admin::start -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <!-- @spring-boot-admin::end -->
 
             <dependency>
                 <groupId>org.mozilla</groupId>
@@ -264,8 +281,7 @@
             </dependency>
             <!-- @nacos::end -->
 
-            <!-- @microservices-module::start -->
-            <!-- order -->
+            <!-- @microservices-order::start -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>order-model</artifactId>
@@ -276,8 +292,9 @@
                 <artifactId>order-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!-- @microservices-order::end -->
 
-            <!-- user -->
+            <!-- @microservices-user::start -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>user-model</artifactId>
@@ -288,43 +305,27 @@
                 <artifactId>user-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!-- @microservices-user::end -->
 
+            <!-- @microservices-common::start -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-util</artifactId>
+                <artifactId>common-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-rpc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- register -->
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-register-factory</artifactId>
+                <artifactId>common-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-register-consul</artifactId>
+                <artifactId>common-code-generator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-register-nacos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-register</artifactId>
+                <artifactId>common-db</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -345,7 +346,56 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-monitor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- register -->
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-register-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-rpc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-thread-pool</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- web -->
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-webflux</artifactId>
@@ -356,29 +406,12 @@
                 <artifactId>common-webmvc</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-db</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-codegen</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!-- @microservices-module::end -->
+            <!-- @microservices-common::end -->
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <finalName>${name}-${profiles.active}-${project.version}</finalName>
+        <finalName>${name}-${spring.profiles.active}-${project.version}</finalName>
         <pluginManagement>
             <plugins>
                 <!-- 资源插件 -->
@@ -389,7 +422,7 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${maven-resources-plugin.version}</version>
                     <executions>
-                        <!-- 拷贝logback-spring.xml -->
+                        <!-- 拷贝配置文件 -->
                         <execution>
                             <id>copy-conf</id>
 
@@ -397,7 +430,7 @@
                             <phase>validate</phase>
 
                             <!--
-                             | 最经常使用的两个goal:
+                             | 最经常使用的两个goal：
                              | 1、resources：这是process-resources阶段的默认goal，在不配置任何参数的状况下，将默认使用 build.resources 中的目录做为源路径，将 build.outputDirectory 做为目标路径
                              | 2、copy-resources：须要明确的指定源路径和目标路径
                              |-->
@@ -408,6 +441,7 @@
                             <configuration>
                                 <!-- 输出到指定路径 -->
                                 <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                <!-- 源路径 -->
                                 <resources>
                                     <resource>
                                         <directory>${conf-dir}</directory>
@@ -433,12 +467,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <target>${maven.compiler.target}</target>
                         <source>${maven.compiler.source}</source>
                         <encoding>UTF-8</encoding>
                     </configuration>
-                    <version>${maven-compiler-plugin.version}</version>
                 </plugin>
 
                 <!-- spring-boot打包插件 -->

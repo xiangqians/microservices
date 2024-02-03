@@ -17,8 +17,7 @@ $ consul -help
 ```
 
 ```shell
-#$ consul agent -server -ui -node=node -bootstrap-expect=1 -data-dir=/tmp/consul -config-dir=/etc/consul.d -client=0.0.0.0 -bind=0.0.0.0
-$ consul agent -server -ui -node=node -bootstrap-expect=1 -data-dir=./data/consul.d -log-file=./log/consul.log -client=0.0.0.0 -bind=192.168.2.10
+$ consul agent -server -ui -node=node -bootstrap-expect=1 -data-dir=./data -log-file=./log/consul.log -client=0.0.0.0 -bind=192.168.2.10
 ```
 
 ```
@@ -26,9 +25,6 @@ $ consul agent -server -ui -node=node -bootstrap-expect=1 -data-dir=./data/consu
 
 大意是说这个节点离线时间太长了，让擦除数据目录。于是又去查了查Issue和文档，解决方案是删除数据目录下的server_metadata.json文件可以强制重新加入。具体可以看最后的参考链接。
 ```
-
-
-
 
 参数说明：
 

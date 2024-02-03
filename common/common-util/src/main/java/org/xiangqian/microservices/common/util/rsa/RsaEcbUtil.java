@@ -57,34 +57,11 @@ public class RsaEcbUtil {
             this.transformation = transformation;
         }
 
-        // RSA加密算法对数据块的长度是有限制的：
-        // 1、对于公钥加密，数据块的最大长度不能超过密钥长度减去11字节。
-        // 2、对于私钥解密，数据块的最大长度等于密钥长度。
-        // 这意味着在使用1024位（128个字节）密钥时，公钥加密的数据块最大长度为117个字节，私钥解密的数据块最大长度为128个字节；
-        // 而在使用2048位（256个字节）密钥时，公钥加密的数据块最大长度为245个字节，私钥解密的数据块最大长度为256个字节。
-
         @Override
         public byte[] encrypt(Key key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-            boolean block = false;
-            int length = data.length;
-            boolean isPublicKey = false;
-            boolean isPrivateKey = false;
-            int keySize = 0;
-            if (key instanceof RSAPublicKey) {
-                isPublicKey = true;
-                keySize = ((RSAPublicKey) key).getModulus().bitLength();
-            } else if (key instanceof RSAPrivateKey) {
-                isPrivateKey = true;
-                keySize = ((RSAPrivateKey) key).getModulus().bitLength();
-            }
-            if (isPublicKey) {
-                block = length > keySize - 11 * 8;
-            } else if (isPrivateKey) {
-                block = length > keySize;
-            }
-            if (block) {
-                Cipher cipher = Cipher.getInstance(transformation);
-                return null;
+            byte[] result = block(Cipher.ENCRYPT_MODE, key, data);
+            if (result != null) {
+                return result;
             }
 
             Cipher cipher = Cipher.getInstance(transformation);
@@ -92,41 +69,98 @@ public class RsaEcbUtil {
             return cipher.doFinal(data);
         }
 
-        private void blockEncrypt(Key key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-//            Cipher cipher = Cipher.getInstance(transformation);
-//            cipher.init(Cipher.ENCRYPT_MODE, key);
-//
-//            int inputLen = data.length;
-//            ByteArrayOutputStream out = new ByteArrayOutputStream();
-//            int offSet = 0;
-//            byte[] cache;
-//            int i = 0;
-//
-//            // Encrypt the data in segments
-//            while (inputLen - offSet > 0) {
-//                if (inputLen - offSet > 245) {
-//                    cache = cipher.doFinal(data, offSet, 245);
-//                } else {
-//                    cache = cipher.doFinal(data, offSet, inputLen - offSet);
-//                }
-//                out.write(cache, 0, cache.length);
-//                i++;
-//                offSet = i * 245;
-//            }
-//            byte[] encryptedData = out.toByteArray();
-//            out.close();
-//
-//            return encryptedData;
-        }
-
         @Override
         public byte[] decrypt(Key key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+            byte[] result = block(Cipher.DECRYPT_MODE, key, data);
+            if (result != null) {
+                return result;
+            }
+
             Cipher cipher = Cipher.getInstance(transformation);
             cipher.init(Cipher.DECRYPT_MODE, key);
             return cipher.doFinal(data);
         }
 
-        private void blockDecrypt() {
+        /**
+         * RSA加密算法对数据块的长度是有限制的：
+         * 1、对于公钥加密，数据块的最大长度不能超过密钥长度减去11字节。
+         * 2、对于私钥解密，数据块的最大长度等于密钥长度。
+         * 这意味着在使用1024位（128个字节）密钥时，公钥加密的数据块最大长度为117个字节，私钥解密的数据块最大长度为128个字节；
+         * 而在使用2048位（256个字节）密钥时，公钥加密的数据块最大长度为245个字节，私钥解密的数据块最大长度为256个字节。
+         *
+         * @param opmode
+         * @param key
+         * @param data
+         * @return
+         * @throws NoSuchPaddingException
+         * @throws NoSuchAlgorithmException
+         * @throws InvalidKeyException
+         * @throws IllegalBlockSizeException
+         * @throws BadPaddingException
+         */
+        private byte[] block(int opmode, Key key, byte[] data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+            // 密钥长度，单位：byte
+            int keyLength = 0;
+
+            // 数据长度，单位：byte
+            int dataLength = data.length;
+
+            // 最大块长度，单位：byte
+            int maxBlockLength = 0;
+
+            // 公钥
+            if (key instanceof RSAPublicKey) {
+                keyLength = ((RSAPublicKey) key).getModulus().bitLength() / 8;
+                maxBlockLength = keyLength - 11;
+            }
+            // 私钥
+            else if (key instanceof RSAPrivateKey) {
+                keyLength = ((RSAPrivateKey) key).getModulus().bitLength() / 8;
+                maxBlockLength = keyLength;
+            }
+
+            // 分块加密/解密
+            if (dataLength > maxBlockLength) {
+                Cipher cipher = Cipher.getInstance(transformation);
+                cipher.init(opmode, key);
+
+                // 已加密/解密的数据
+                int arrIndex = 0;
+                int arrLength = dataLength / maxBlockLength;
+                if (dataLength % maxBlockLength != 0) {
+                    arrLength += 1;
+                }
+                byte[][] arr = new byte[arrLength][];
+                int resultLength = 0;
+
+                // 加密
+                int offset = 0;
+                while (offset < dataLength) {
+                    byte[] bytes = null;
+                    int nextOffset = offset + maxBlockLength;
+                    if (nextOffset <= dataLength) {
+                        bytes = cipher.doFinal(data, offset, maxBlockLength);
+                    } else {
+                        bytes = cipher.doFinal(data, offset, dataLength - offset);
+                    }
+                    arr[arrIndex++] = bytes;
+                    resultLength += bytes.length;
+                    offset = nextOffset;
+                }
+
+                // 合并结果
+                int resultIndex = 0;
+                byte[] result = new byte[resultLength];
+                for (int i = 0; i < arrLength; i++) {
+                    byte[] bytes = arr[i];
+                    int length = bytes.length;
+                    System.arraycopy(bytes, 0, result, resultIndex, length);
+                    resultIndex += length;
+                }
+                return result;
+            }
+
+            return null;
         }
     }
 

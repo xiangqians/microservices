@@ -37,7 +37,7 @@ public class DocAutoConfiguration {
     @Bean
     public GroupedOpenApi defaultGroupedOpenApi() throws IOException {
         String group = "default";
-        String[] pkgs = ResourceUtil.scanPkgs("org.xiangqian.microservices.**.controller").toArray(String[]::new);
+        String[] pkgs = ResourceUtil.getPkgs("org.xiangqian.microservices.**.controller").toArray(String[]::new);
         return GroupedOpenApi.builder()
                 .group(group).displayName(group) // 组名称
                 .pathsToMatch("/**") // 匹配接口路径

@@ -27,10 +27,10 @@ import java.util.Objects;
 @Configuration(proxyBeanMethods = false)
 public class WebAutoConfiguration {
 
-    @Bean
-    public Validator validator(LocalValidatorFactoryBean localValidatorFactoryBean) {
-        return new Validator(localValidatorFactoryBean);
-    }
+//    @Bean
+//    public Validator validator1(LocalValidatorFactoryBean localValidatorFactoryBean) {
+//        return new Validator(localValidatorFactoryBean);
+//    }
 
     // 'xxx..' 表示xxx包及其子包
     @Pointcut("execution(public * org.xiangqian.microservices..*.controller..*.*(..)) && (@annotation(org.springframework.web.bind.annotation.GetMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping) || @annotation(org.springframework.web.bind.annotation.PutMapping) || @annotation(org.springframework.web.bind.annotation.DeleteMapping))")
@@ -55,35 +55,35 @@ public class WebAutoConfiguration {
         // expected single matching bean but found 3: applicationTaskExecutor,configWatchTaskScheduler,catalogWatchTaskScheduler
 
         // 校验vo参数
-        Object[] args = joinPoint.getArgs();
-        if (ArrayUtils.isNotEmpty(args)) {
-            MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-            Method method = methodSignature.getMethod();
-            Annotation[][] paramsAnnotations = method.getParameterAnnotations();
-            int paramsAnnotationsLen = paramsAnnotations.length;
-            for (int i = 0, len = args.length; i < len; i++) {
-                Object arg = args[i];
-                if (Objects.isNull(arg) || !(arg instanceof Vo) || i >= paramsAnnotationsLen) {
-                    continue;
-                }
-
-                Annotation[] paramAnnotations = paramsAnnotations[i];
-                if (ArrayUtils.isNotEmpty(paramAnnotations)) {
-                    Vo vo = (Vo) arg;
-                    for (Annotation paramAnnotation : paramAnnotations) {
-                        if (Objects.nonNull(paramAnnotation) && paramAnnotation instanceof Validated) {
-                            Validated validated = (Validated) paramAnnotation;
-                            Class<?>[] groups = validated.value();
-                            if (ArrayUtils.isNotEmpty(groups)) {
-                                vo.validate(groups);
-                            } else {
-                                vo.validate(Default.class);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        Object[] args = joinPoint.getArgs();
+//        if (ArrayUtils.isNotEmpty(args)) {
+//            MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+//            Method method = methodSignature.getMethod();
+//            Annotation[][] paramsAnnotations = method.getParameterAnnotations();
+//            int paramsAnnotationsLen = paramsAnnotations.length;
+//            for (int i = 0, len = args.length; i < len; i++) {
+//                Object arg = args[i];
+//                if (Objects.isNull(arg) || !(arg instanceof Vo) || i >= paramsAnnotationsLen) {
+//                    continue;
+//                }
+//
+//                Annotation[] paramAnnotations = paramsAnnotations[i];
+//                if (ArrayUtils.isNotEmpty(paramAnnotations)) {
+//                    Vo vo = (Vo) arg;
+//                    for (Annotation paramAnnotation : paramAnnotations) {
+//                        if (Objects.nonNull(paramAnnotation) && paramAnnotation instanceof Validated) {
+//                            Validated validated = (Validated) paramAnnotation;
+//                            Class<?>[] groups = validated.value();
+//                            if (ArrayUtils.isNotEmpty(groups)) {
+//                                vo.validate(groups);
+//                            } else {
+//                                vo.validate(Default.class);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         return joinPoint.proceed();
     }

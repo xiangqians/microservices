@@ -16,6 +16,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
         <!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -24,7 +28,7 @@
         -->
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-util</artifactId>
+            <artifactId>common-model</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

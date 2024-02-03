@@ -1,7 +1,6 @@
 package org.xiangqian.microservices.common.webmvc;
 
 import org.xiangqian.microservices.common.model.Response;
-import org.xiangqian.microservices.common.util.MessageUtil;
 import org.xiangqian.microservices.common.web.WebCode;
 
 /**
@@ -14,7 +13,6 @@ public abstract class AbsController {
         String code = WebCode.OK;
         return Response.<T>builder()
                 .code(code)
-                .msg(MessageUtil.get(code))
                 .data(t)
                 .build();
     }

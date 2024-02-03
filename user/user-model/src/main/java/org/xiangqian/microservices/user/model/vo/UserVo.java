@@ -16,7 +16,9 @@ import org.xiangqian.microservices.user.model.entity.UserEntity;
 @Schema(description = "用户信息")
 public class UserVo extends UserEntity implements Vo {
 
-    @JsonIgnore // 不回显密码字段
+    // 不回显字段
+    @JsonIgnore
+    @Schema(hidden = true)
     @Override
     public String getPasswd() {
         return super.getPasswd();

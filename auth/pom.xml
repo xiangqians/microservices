@@ -73,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-register-factory</artifactId>
+            <artifactId>common-register-consul</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

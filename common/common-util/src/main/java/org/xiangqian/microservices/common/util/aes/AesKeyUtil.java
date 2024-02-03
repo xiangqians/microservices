@@ -41,9 +41,9 @@ public class AesKeyUtil {
         return generateKey(128);
     }
 
-    private static SecretKey generateKey(int size) throws NoSuchAlgorithmException {
+    private static SecretKey generateKey(int bitLength) throws NoSuchAlgorithmException {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(size, new SecureRandom());
+        keyGenerator.init(bitLength, new SecureRandom());
         return keyGenerator.generateKey();
     }
 

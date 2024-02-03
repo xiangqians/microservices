@@ -24,26 +24,23 @@ import java.util.Set;
 @Configuration(proxyBeanMethods = false)
 public class RpcAutoConfiguration implements BeanDefinitionRegistryPostProcessor {
 
-    @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        registryApiFactoryBean(registry);
-    }
-
     // 注册ApiFactoryBean
     @SneakyThrows
-    public void registryApiFactoryBean(BeanDefinitionRegistry registry) throws BeansException {
-        Set<Class<?>> classes = ResourceUtil.scanClasses("org.xiangqian.microservices.**.api");
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        Set<Class<?>> classes = ResourceUtil.getClasses("org.xiangqian.microservices.**.api");
         if (CollectionUtils.isEmpty(classes)) {
             return;
         }
 
         for (Class<?> clazz : classes) {
-            // 服务名称 --> 约定大于配置
+            // 服务名称（约定大于配置）
             String packageName = clazz.getPackageName();
-            String serviceName = String.format("%s-biz", packageName.substring("org.xiangqian.microservices.".length(), packageName.length() - ".api".length()).replace(".", "-"));
+            String serviceName = packageName.substring("org.xiangqian.microservices.".length(), packageName.length() - ".api".length()).replace(".", "-");
+            serviceName = String.format("%s-biz", serviceName);
 
             // Bean名称
-            String beanName = String.format("%sFactoryBean", NamingUtil.upperCamelToLowerCamel(clazz.getSimpleName()));
+            String beanName = String.format("%sFactoryBean", NamingUtil.UpperCamel.convToLowerCamel(clazz.getSimpleName()));
 
             // Bean定义构建器
             BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.rootBeanDefinition(ApiFactoryBean.class);

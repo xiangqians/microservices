@@ -1,7 +1,9 @@
 package org.xiangqian.microservices.order.biz.service;
 
 import org.xiangqian.microservices.common.model.Page;
+import org.xiangqian.microservices.common.model.PageRequest;
 import org.xiangqian.microservices.order.model.vo.OrderAddVo;
+import org.xiangqian.microservices.order.model.vo.OrderPageVo;
 import org.xiangqian.microservices.order.model.vo.OrderUpdVo;
 import org.xiangqian.microservices.order.model.vo.OrderVo;
 
@@ -13,7 +15,7 @@ import org.xiangqian.microservices.order.model.vo.OrderVo;
  */
 public interface OrderService {
 
-    Page<OrderVo> page(Page page, OrderVo vo);
+    Page<OrderVo> page(PageRequest pageRequest, OrderPageVo vo);
 
     OrderVo getById(Long id);
 
