@@ -50,9 +50,6 @@
         -->
         <spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
 
-        <!-- nacos -->
-        <nacos.version>2022.0.0.0</nacos.version>
-
         <!-- apache-commons -->
         <apache-commons-io.version>2.11.0</apache-commons-io.version>
         <apache-commons-collections.version>4.4</apache-commons-collections.version>
@@ -94,10 +91,19 @@
         <!-- Spring Boot Admin -->
         <!-- spring-boot 3.1.x 必须对应 spring-boot-admin 3.1.x -->
         <spring-boot-admin.version>3.1.1</spring-boot-admin.version>
+
+        <!-- caffeine缓存 -->
+        <caffeine.version>3.1.8</caffeine.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+
             <!-- @spring-boot-admin::start -->
             <dependency>
                 <groupId>de.codecentric</groupId>
@@ -265,22 +271,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- nacos依赖 -->
-            <!-- @nacos::start -->
-            <!-- 服务注册与发现 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${nacos.version}</version>
-            </dependency>
-            <!-- 配置中心 -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${nacos.version}</version>
-            </dependency>
-            <!-- @nacos::end -->
-
             <!-- @microservices-order::start -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
@@ -310,11 +300,6 @@
             <!-- @microservices-common::start -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-auth</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -328,24 +313,11 @@
                 <artifactId>common-db</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <!-- doc -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-doc-webflux</artifactId>
+                <artifactId>common-lock</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-doc-webmvc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-doc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-model</artifactId>
@@ -356,24 +328,21 @@
                 <artifactId>common-monitor</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <!-- register -->
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-mq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-oss</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-register</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-register-consul</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.xiangqian.microservices</groupId>
-                <artifactId>common-register-nacos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-rpc</artifactId>
@@ -389,8 +358,6 @@
                 <artifactId>common-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <!-- web -->
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-web</artifactId>
@@ -403,7 +370,17 @@
             </dependency>
             <dependency>
                 <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-webflux-auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
                 <artifactId>common-webmvc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xiangqian.microservices</groupId>
+                <artifactId>common-webmvc-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- @microservices-common::end -->

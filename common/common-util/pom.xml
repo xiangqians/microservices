@@ -85,6 +85,15 @@
         </dependency>
         <!-- @apache-commons::end -->
 
+        <!--
+         | SLF4J（Simple Logging Facade for Java）是一个日志门面接口，它允许你在应用程序中使用不同的日志框架（如Log4j、java.util.logging和Logback）而无需修改应用程序代码。
+         | SLF4J提供了一组简单的接口，以便应用程序可以记录各种日志信息，而这些接口将被绑定到底层日志实现。
+         |-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

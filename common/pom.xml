@@ -13,24 +13,23 @@
     <description>公共模块</description>
 
     <modules>
-        <module>common-auth</module>
         <module>common-cache</module>
         <module>common-code-generator</module>
         <module>common-db</module>
-        <module>common-doc</module>
-        <module>common-doc-webflux</module>
-        <module>common-doc-webmvc</module>
+        <module>common-lock</module>
         <module>common-model</module>
         <module>common-monitor</module>
+        <module>common-mq</module>
+        <module>common-oss</module>
         <module>common-register</module>
-        <module>common-register-consul</module>
-        <module>common-register-nacos</module>
         <module>common-rpc</module>
         <module>common-thread-pool</module>
         <module>common-util</module>
         <module>common-web</module>
         <module>common-webflux</module>
+        <module>common-webflux-auth</module>
         <module>common-webmvc</module>
+        <module>common-webmvc-auth</module>
     </modules>
 
 </project>

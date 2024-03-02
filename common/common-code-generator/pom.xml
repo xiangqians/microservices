@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-register-consul</artifactId>
+            <artifactId>common-register</artifactId>
         </dependency>
 
         <dependency>

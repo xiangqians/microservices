@@ -18,42 +18,56 @@
     <dependencies>
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-monitor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.xiangqian.microservices</groupId>
             <artifactId>user-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-rpc</artifactId>
+            <artifactId>common-monitor</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-webmvc</artifactId>
+            <artifactId>common-thread-pool</artifactId>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.xiangqian.microservices</groupId>-->
+<!--            <artifactId>common-cache</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
             <artifactId>common-db</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-register-consul</artifactId>
+            <artifactId>common-webmvc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.xiangqian.microservices</groupId>
+            <artifactId>common-register</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
             <artifactId>order-model</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
             <artifactId>common-code-generator</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

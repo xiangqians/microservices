@@ -1,4 +1,0 @@
-# gateway,dev/data.yml
-
-server:
-  port: ${GATEWAY_PORT:9000}

@@ -16,7 +16,7 @@
     </properties>
 
     <dependencies>
-        <!-- 静态资源 -->
+        <!-- @静态资源::start -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator-core</artifactId>
@@ -25,6 +25,7 @@
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
         </dependency>
+        <!-- @静态资源::end -->
 
         <!-- thymeleaf模板引擎 -->
         <dependency>
@@ -32,7 +33,8 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!-- spring-security-oauth2-authorization-server
+        <!--
+         | spring-security-oauth2-authorization-server
          | https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix#frequently-asked-questions
          | https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
          | https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Migration-Guide
@@ -48,7 +50,8 @@
             <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
         -->
-        <!-- spring-boot-starter-security
+        <!--
+         | spring-boot-starter-security
          | https://spring.io/projects/spring-security
          | https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix
          |-->
@@ -59,22 +62,30 @@
         </dependency>
         -->
 
+        <!--
+         | Now if you want to add OAuth2.0 Authorization Server support, you can add the following dependency.
+         | https://www.springcloud.io/post/2022-01/spring-authorization-server-trial/
+         |-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
             <artifactId>common-webmvc</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
             <artifactId>common-db</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-register-consul</artifactId>
+            <artifactId>common-register</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

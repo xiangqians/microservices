@@ -11,4 +11,26 @@
     <name>${artifactId}</name>
     <description>缓存模块</description>
 
+    <dependencies>
+        <!-- redis缓存
+         | 在Spring Boot中，通过添加spring-boot-starter-data-redis依赖来集成Redis，并且默认情况下，该依赖会自动引入Lettuce作为Redis客户端。
+         | Lettuce是一个高性能、易于使用的Redis客户端，它支持异步和同步操作，以及哨兵和集群模式。与其他Redis客户端相比，Lettuce具有更好的性能和可扩展性，并且支持多线程操作。
+         |-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
 </project>

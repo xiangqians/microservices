@@ -1,2 +1,2 @@
 org.xiangqian.microservices.common.webmvc.WebMvcAutoConfiguration
-org.xiangqian.microservices.common.webmvc.WebMvcExceptionHandler
+org.xiangqian.microservices.common.webmvc.WebMvcDocAutoConfiguration

@@ -16,27 +16,28 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Cloud Gateway采用的是响应式，因此，要使用对应的WebFlux组件 -->
+        <!-- Spring Cloud Gateway采用的是响应式，因此，要使用对应的WebFlux组件文档::start -->
         <dependency>
-            <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-doc-webflux</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Spring Cloud Gateway采用的是响应式，因此，要使用对应的WebFlux组件文档::end -->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-register-consul</artifactId>
+            <artifactId>common-register</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

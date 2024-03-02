@@ -1,14 +1,14 @@
 package org.xiangqian.microservices.common.util;
 
 import lombok.Getter;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import java.io.InputStream;
+import java.util.Map;
 
 /**
  * 应用工具类
@@ -18,7 +18,6 @@ import java.io.InputStream;
  */
 @Configuration(proxyBeanMethods = false)
 public class AppUtil implements ApplicationContextAware {
-
     // 应用程序上下文
     private static ApplicationContext applicationContext;
 
@@ -26,26 +25,42 @@ public class AppUtil implements ApplicationContextAware {
     @Getter
     private static String name;
 
+    @Getter
+    private static boolean isWebMvc;
+
+    @Getter
+    private static boolean isWebFlux;
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-        initNameV1();
+        initName();
+        initSpringFramework();
     }
 
-    private void initNameV1() {
+    private void initSpringFramework() {
+        Map<String, ApplicationContextAware> applicationContextAwareMap = getBeansByType(ApplicationContextAware.class);
+        if (MapUtils.isNotEmpty(applicationContextAwareMap)) {
+            for (Map.Entry<String, ApplicationContextAware> entry : applicationContextAwareMap.entrySet()) {
+                ApplicationContextAware applicationContextAware = entry.getValue();
+                String className = applicationContextAware.getClass().getName();
+
+                // 如果存在 org.springframework.web.servlet.DispatcherServlet Bean，表明使用的是 Spring Web 框架
+                if ("org.springframework.web.servlet.DispatcherServlet" .equals(className)) {
+                    isWebMvc = true;
+                }
+
+                // 如果存在 org.springframework.web.reactive.DispatcherHandler Bean，表明使用的是 Spring WebFlux 框架
+                if ("org.springframework.web.reactive.DispatcherHandler" .equals(className)) {
+                    isWebFlux = true;
+                }
+            }
+        }
+    }
+
+    private void initName() {
         Environment environment = getBean(Environment.class);
         name = environment.getProperty("spring.application.name");
-    }
-
-    private void initNameV2() {
-        InputStream inputStream = null;
-        try {
-            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("bootstrap.yml");
-            Yaml yaml = new Yaml(inputStream);
-            name = yaml.getString("spring.application.name");
-        } finally {
-            IOUtils.closeQuietly(inputStream);
-        }
     }
 
     public static <T> T getBean(Class<T> requiredType) {
@@ -56,77 +71,8 @@ public class AppUtil implements ApplicationContextAware {
         return applicationContext.getBean(name);
     }
 
-//    private static List<ReqMapping> reqMappings;
-//
-//    /**
-//     * 获取请求映射集
-//     * {@link org.springframework.web.bind.annotation.RequestMapping}
-//     */
-//    public static List<ReqMapping> getReqMappings() {
-//        if (Objects.isNull(reqMappings)) {
-//            synchronized (SpringUtil.class) {
-//                if (Objects.isNull(reqMappings)) {
-//                    Map<?, HandlerMethod> reqMappingMap = null;
-//                    Object handlerMapping = applicationContext.getBean("requestMappingHandlerMapping");
-//                    if (handlerMapping instanceof org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping) {
-//                        org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping webmvcHandlerMapping = (org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping) handlerMapping;
-//                        reqMappingMap = webmvcHandlerMapping.getHandlerMethods();
-//                    } else if (handlerMapping instanceof org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping) {
-//                        org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping webfluxHandlerMapping = (org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping) handlerMapping;
-//                        reqMappingMap = webfluxHandlerMapping.getHandlerMethods();
-//                    }
-//
-//                    if (MapUtils.isEmpty(reqMappingMap)) {
-//                        reqMappings = Collections.emptyList();
-//                    } else {
-//                        List<ReqMapping> reqMappings0 = new ArrayList<>(reqMappingMap.size());
-//                        for (Map.Entry<?, HandlerMethod> entry : reqMappingMap.entrySet()) {
-//                            Object reqMappingInfo = entry.getKey();
-//                            Set<PathPattern> patterns = null;
-//                            Set<RequestMethod> methods = null;
-//                            if (reqMappingInfo instanceof org.springframework.web.servlet.mvc.method.RequestMappingInfo) {
-//                                org.springframework.web.servlet.mvc.method.RequestMappingInfo webmvcReqMappingInfo = (org.springframework.web.servlet.mvc.method.RequestMappingInfo) reqMappingInfo;
-//                                patterns = Optional.ofNullable(webmvcReqMappingInfo.getPathPatternsCondition()).map(org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition::getPatterns).orElse(null);
-//                                methods = Optional.ofNullable(webmvcReqMappingInfo.getMethodsCondition()).map(org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition::getMethods).orElse(null);
-//                            } else if (reqMappingInfo instanceof org.springframework.web.reactive.result.method.RequestMappingInfo) {
-//                                org.springframework.web.reactive.result.method.RequestMappingInfo webfluxReqMappingInfo = (org.springframework.web.reactive.result.method.RequestMappingInfo) reqMappingInfo;
-//                                patterns = Optional.ofNullable(webfluxReqMappingInfo.getPatternsCondition()).map(org.springframework.web.reactive.result.condition.PatternsRequestCondition::getPatterns).orElse(null);
-//                                methods = Optional.ofNullable(webfluxReqMappingInfo.getMethodsCondition()).map(org.springframework.web.reactive.result.condition.RequestMethodsRequestCondition::getMethods).orElse(null);
-//                            }
-//
-//                            if (CollectionUtils.isEmpty(patterns)) {
-//                                continue;
-//                            }
-//
-//                            ReqMapping reqMapping = new ReqMapping();
-//                            reqMapping.setPatterns(patterns.stream().map(PathPattern::getPatternString).collect(Collectors.toSet()));
-//                            reqMapping.setMethods(methods);
-//                            HandlerMethod method = entry.getValue();
-//                            reqMapping.setMethod(method.getMethod());
-//                            reqMappings0.add(reqMapping);
-//                        }
-//                        reqMappings = Collections.unmodifiableList(reqMappings0);
-//                    }
-//                }
-//            }
-//        }
-//        return reqMappings;
-//    }
-//
-//    @Data
-//    public static class ReqMapping {
-//        private Set<RequestMethod> methods;
-//        private Set<String> patterns;
-//        private Method method;
-//
-//        @Override
-//        public String toString() {
-//            return "ReqMapping {" +
-//                    "\n\tmethods\t\t= " + methods +
-//                    "\n\tpatterns\t= " + patterns +
-//                    "\n\tmethod\t\t= " + method +
-//                    "\n}";
-//        }
-//    }
+    public static <T> Map<String, T> getBeansByType(Class<T> requiredType) {
+        return applicationContext.getBeansOfType(requiredType);
+    }
 
 }

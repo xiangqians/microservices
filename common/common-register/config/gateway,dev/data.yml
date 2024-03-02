@@ -1,0 +1,20 @@
+# gateway,dev/data.yml
+
+server:
+  port: ${GATEWAY_PORT:9000}
+
+spring:
+  cloud:
+    gateway:
+      # 路由配置
+      routes:
+        - id: ${spring.cloud.gateway.discovery.locator.route-id-prefix}monitor
+          # lb代表从注册中心获取服务
+          uri: lb://monitor
+          predicates:
+            # 转发路径
+            - Path=/**
+          # 过滤器
+          filters:
+            # StripPrefix的作用是去掉前缀的，值即对应层数
+            - StripPrefix=1

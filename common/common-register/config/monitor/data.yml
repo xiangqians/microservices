@@ -1,0 +1,12 @@
+# monitor/data.yml
+
+spring:
+  boot:
+    admin:
+      discovery:
+        # 忽略 consul服务（如果不忽略会出错）、monitor服务（当前服务）、gateway（网关服务）
+        ignored-services: consul,monitor,gateway
+      ui:
+        title: Monitor
+        brand: '<img src="assets/img/icon-spring-boot-admin.svg"><span>Monitor</span>'
+      probed-endpoints: '*'

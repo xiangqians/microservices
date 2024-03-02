@@ -62,7 +62,11 @@ public class UserController extends AbsController {
     @GetMapping("/{id}")
     @Operation(summary = "查询用户", description = "根据id查询用户")
     public Mono<ResponseEntity<Response<UserVo>>> getById(@Parameter(description = "用户id") @PathVariable("id") Long id) {
-        return mono(() -> service.getById(id, true));
+        return mono(() -> {
+            UserVo userVo = service.getById(id);
+            userVo.setPasswd(null);
+            return userVo;
+        });
     }
 
     @PutMapping

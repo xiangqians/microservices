@@ -20,6 +20,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <!--
+         | Actuator官方的定义：
+         | Definition of Actuator
+         | An actuator is a manufacturing term that refers to a mechanical device for moving or controlling something.
+         | Actuators can generate a large amount of motion from a small change.
+         |-->
+
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
@@ -40,7 +48,7 @@
 
         <dependency>
             <groupId>org.xiangqian.microservices</groupId>
-            <artifactId>common-register-consul</artifactId>
+            <artifactId>common-register</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

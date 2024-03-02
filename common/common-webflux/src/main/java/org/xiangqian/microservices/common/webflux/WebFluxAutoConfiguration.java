@@ -10,17 +10,5 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration(proxyBeanMethods = false)
 public class WebFluxAutoConfiguration {
-
-    //common-web
-
-
     // Sync 与 Async
-
-
-
-
-
-
-
-
 }

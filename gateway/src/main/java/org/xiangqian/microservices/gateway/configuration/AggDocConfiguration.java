@@ -57,15 +57,12 @@ public class AggDocConfiguration implements ApplicationListener<RefreshRoutesEve
             }
 
             routeId = routeId.substring(routeIdPrefix.length());
-            if (AppUtil.getName().equals(routeId) || "consul".equals(routeId) || "auth".equals(routeId)) {
+            if (StringUtils.equalsAny(routeId, AppUtil.getName(), "consul", "monitor", "auth")) {
                 continue;
             }
 
             String group = routeId;
-
-            // lb://user
-            URI uri = routeDefinition.getUri();
-
+            URI uri = routeDefinition.getUri(); // lb://user
             String url = String.format("%s/v3/api-docs", uri.toString().substring("lb://".length()));
             String displayName = group;
             AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl(group, url, displayName);
@@ -79,6 +76,7 @@ public class AggDocConfiguration implements ApplicationListener<RefreshRoutesEve
         run();
     }
 
+    // 多线程并发，以后再优化
     @Override
     public void onApplicationEvent(RefreshRoutesEvent event) {
         Object source = event.getSource();
